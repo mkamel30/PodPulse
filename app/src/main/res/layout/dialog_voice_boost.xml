@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_volume_adaption"
+            app:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:text="@string/pref_voice_boost_title"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchVoiceBoost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/voice_boost_explanation"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:id="@+id/gainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/voice_boost_gain_title"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtGainValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="+6 dB" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderGain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="12.0"
+            app:thumbColor="?attr/colorPrimary"
+            app:trackColorActive="?attr/colorPrimary" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupPresets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPresetMild"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_boost_preset_mild" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPresetBalanced"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_boost_preset_balanced" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPresetHigh"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_boost_preset_high" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPresetMax"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/voice_boost_preset_max" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

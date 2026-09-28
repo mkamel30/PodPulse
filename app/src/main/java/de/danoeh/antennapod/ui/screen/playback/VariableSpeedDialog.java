@@ -45,6 +45,7 @@ public class VariableSpeedDialog extends BottomSheetDialogFragment {
     private PlaybackSpeedSeekBar speedSeekBar;
     private Chip addCurrentSpeedChip;
     private CheckBox skipSilenceCheckbox;
+    private CheckBox voiceBoostCheckbox;
     private Disposable disposable;
 
     public VariableSpeedDialog() {
@@ -97,6 +98,7 @@ public class VariableSpeedDialog extends BottomSheetDialogFragment {
                     }
                     updateSpeed(new SpeedChangedEvent(controller.getCurrentPlaybackSpeedMultiplier()));
                     updateSkipSilence(controller.getCurrentPlaybackSkipSilence());
+                    updateVoiceBoost(controller.getCurrentPlaybackVoiceBoost());
                 }, error -> Log.e(TAG, Log.getStackTraceString(error)));
 
     }
@@ -109,6 +111,12 @@ public class VariableSpeedDialog extends BottomSheetDialogFragment {
 
     public void updateSkipSilence(boolean skipSilence) {
         skipSilenceCheckbox.setChecked(skipSilence);
+    }
+
+    public void updateVoiceBoost(boolean voiceBoost) {
+        if (voiceBoostCheckbox != null) {
+            voiceBoostCheckbox.setChecked(voiceBoost);
+        }
     }
 
     @Nullable
@@ -150,6 +158,19 @@ public class VariableSpeedDialog extends BottomSheetDialogFragment {
                                 MediaLibrarySessionCallback.createBundle(isChecked)));
             } else if (controller != null) {
                 controller.setSkipSilence(isChecked);
+            }
+        });
+
+        voiceBoostCheckbox = root.findViewById(R.id.voiceBoost);
+        voiceBoostCheckbox.setChecked(UserPreferences.isVoiceBoost());
+        voiceBoostCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            UserPreferences.setVoiceBoost(isChecked);
+            if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
+                PlaybackController.bindToMedia3Service(getContext(), mediaController ->
+                        mediaController.sendCustomCommand(MediaLibrarySessionCallback.SESSION_COMMAND_VOICE_BOOST,
+                                MediaLibrarySessionCallback.createBundle(isChecked)));
+            } else if (controller != null) {
+                controller.setVoiceBoost(isChecked);
             }
         });
         return root;

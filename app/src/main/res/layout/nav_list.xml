@@ -58,15 +58,64 @@
         android:background="?android:attr/listDivider"
         tools:background="@android:color/holo_red_dark" />
 
+    <LinearLayout
+        android:id="@+id/nav_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/app_name" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_subtitle_podpulse"
+                android:textSize="12sp"
+                android:textColor="?android:attr/textColorSecondary" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/header_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/nav_header"
+        android:background="?android:attr/listDivider" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/nav_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/divider"
+        android:layout_below="@id/header_divider"
         android:choiceMode="singleChoice"
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
-        android:layout_alignParentTop="true"
         android:dividerHeight="0dp"
         android:paddingBottom="@dimen/list_vertical_padding"
         android:paddingTop="8dp"

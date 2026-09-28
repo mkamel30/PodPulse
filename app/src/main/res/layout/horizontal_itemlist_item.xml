@@ -16,7 +16,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_margin="4dp"
         app:cardBackgroundColor="?attr/colorSurfaceContainer"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="0dp">
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="1px"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardElevation="0dp">
 
@@ -38,8 +38,8 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="128dp"
-                        android:layout_height="128dp"
+                        android:layout_width="144dp"
+                        android:layout_height="144dp"
                         android:background="@color/image_readability_tint">
 
                         <de.danoeh.antennapod.ui.common.SquareImageView
@@ -102,7 +102,7 @@
 
             <TextView
                 android:id="@+id/titleLabel"
-                android:layout_width="128dp"
+                android:layout_width="144dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"

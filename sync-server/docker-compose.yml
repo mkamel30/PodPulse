@@ -1,0 +1,15 @@
+services:
+  podpulse-sync:
+    build: .
+    container_name: podpulse-sync
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - podpulse-data:/data
+    environment:
+      - DB_PATH=/data/podpulse.db
+
+volumes:
+  podpulse-data:
+    driver: local

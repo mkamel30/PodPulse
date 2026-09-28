@@ -6,6 +6,13 @@
     <PreferenceCategory android:title="@string/theming">
         <de.danoeh.antennapod.ui.preferences.preference.ThemePreference
                 android:key="prefTheme" />
+        <de.danoeh.antennapod.ui.preferences.preference.MaterialListPreference
+                android:key="prefThemePalette"
+                android:title="@string/pref_theme_palette_title"
+                android:summary="%s"
+                android:defaultValue="indigo"
+                android:entries="@array/theme_palette_names"
+                android:entryValues="@array/theme_palette_values" />
         <SwitchPreferenceCompat
                 android:title="@string/pref_black_theme_title"
                 android:key="prefThemeBlack"
@@ -18,6 +25,12 @@
                 android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/episode_information">
+        <SwitchPreferenceCompat
+            android:title="@string/pref_wavy_seekbar_title"
+            android:key="prefWavySeekbar"
+            android:summary="@string/pref_wavy_seekbar_summary"
+            android:defaultValue="true"
+            android:enabled="true"/>
         <SwitchPreferenceCompat
             android:title="@string/pref_episode_cover_title"
             android:key="prefEpisodeCover"

@@ -36,6 +36,11 @@ public class ItunesTopListLoader {
 
     public List<PodcastSearchResult> loadToplist(String country, int limit, List<Feed> subscribed)
             throws JSONException, IOException {
+        return loadToplist(country, 0, limit, subscribed);
+    }
+
+    public List<PodcastSearchResult> loadToplist(String country, int categoryGenreId, int limit, List<Feed> subscribed)
+            throws JSONException, IOException {
         OkHttpClient client = AntennapodHttpClient.getHttpClient();
         String feedString;
         String loadCountry = country;
@@ -43,10 +48,10 @@ public class ItunesTopListLoader {
             loadCountry = Locale.getDefault().getCountry();
         }
         try {
-            feedString = getTopListFeed(client, loadCountry);
+            feedString = getTopListFeed(client, loadCountry, categoryGenreId);
         } catch (IOException e) {
             if (COUNTRY_CODE_UNSET.equals(country)) {
-                feedString = getTopListFeed(client, "US");
+                feedString = getTopListFeed(client, "US", categoryGenreId);
             } else {
                 throw e;
             }
@@ -75,8 +80,13 @@ public class ItunesTopListLoader {
         return suggestedNotSubscribed;
     }
 
-    private String getTopListFeed(OkHttpClient client, String country) throws IOException {
-        String url = "https://itunes.apple.com/%s/rss/toppodcasts/limit=" + NUM_LOADED + "/explicit=true/json";
+    private String getTopListFeed(OkHttpClient client, String country, int categoryGenreId) throws IOException {
+        String url;
+        if (categoryGenreId > 0) {
+            url = "https://itunes.apple.com/%s/rss/toppodcasts/limit=" + NUM_LOADED + "/genre=" + categoryGenreId + "/explicit=true/json";
+        } else {
+            url = "https://itunes.apple.com/%s/rss/toppodcasts/limit=" + NUM_LOADED + "/explicit=true/json";
+        }
         Log.d(TAG, "Feed URL " + String.format(url, country));
         Request.Builder httpReq = new Request.Builder()
                 .cacheControl(new CacheControl.Builder().maxStale(1, TimeUnit.DAYS).build())

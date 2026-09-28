@@ -73,7 +73,7 @@
     <string name="home_continue_empty_text">You can add episodes by downloading them or long-pressing them and selecting \"Add to queue\".</string>
     <string name="home_new_empty_text">New episodes will show up here. You can then decide whether you are interested in them.</string>
     <string name="home_downloads_empty_text">You can download any episode to listen to it offline.</string>
-    <string name="home_welcome_title">Welcome to AntennaPod!</string>
+    <string name="home_welcome_title">Welcome to PodPulse!</string>
     <string name="home_welcome_text">You are not subscribed to any podcasts yet. Open the menu to add a podcast.</string>
     <string name="notification_permission_denied">You denied the permission.</string>
     <string name="configure_home">Configure home screen</string>
@@ -191,6 +191,10 @@
     <plurals name="new_episode_notification_title">
         <item quantity="one">New episode</item>
         <item quantity="other">New episodes</item>
+    </plurals>
+    <plurals name="new_episode_notification_summary">
+        <item quantity="one">%1$d new episode from %2$d podcast</item>
+        <item quantity="other">%1$d new episodes from %2$d podcasts</item>
     </plurals>
     <string name="new_episode_notification_group_text">Your subscriptions have new episodes.</string>
 
@@ -452,6 +456,13 @@
     <string name="synchronization_sum">Synchronize with other devices</string>
     <string name="automation">Automation</string>
     <string name="download_pref_details">Details</string>
+    <string name="download_settings_storage">Storage</string>
+    <string name="download_settings_updates">Updates</string>
+    <string name="smart_downloads_label">Smart downloads</string>
+    <string name="download_settings_cleanup">Cleanup</string>
+    <string name="download_settings_network">Network</string>
+    <string name="download_settings_episodes">Episodes</string>
+    <string name="download_settings_storage_power">Storage &amp; power</string>
     <string name="import_export_pref">Backup &amp; restore</string>
     <string name="import_export_search_keywords">import, export</string>
     <string name="theming">Theming</string>
@@ -706,6 +717,11 @@
     <string name="sleep_timer_without_continuous_playback_message">Instead of always automatically enabling the sleep timer with one episode, please instead disable \"continuous playback\" in the settings.</string>
     <string name="sleep_timer_always">Always</string>
     <string name="sleep_timer_label">Sleep timer</string>
+    <string name="sleep_timer_quick_start">Quick start</string>
+    <string name="sleep_timer_preset_15">15 min</string>
+    <string name="sleep_timer_preset_30">30 min</string>
+    <string name="sleep_timer_preset_45">45 min</string>
+    <string name="sleep_timer_preset_60">60 min</string>
     <string name="time_dialog_invalid_input">Invalid input, time has to be an integer</string>
     <plurals name="timer_exceeds_remaining_time_while_continuous_playback_disabled">
         <item quantity="one">Continuous playback is disabled and the current episode has only %1$d minute left</item>
@@ -1063,4 +1079,59 @@
     <string name="wearos_play_on_phone" tools:ignore="UnusedResources">Play on phone</string>
     <string name="wearos_browse_phone" tools:ignore="UnusedResources">Browse phone</string>
     <string name="wearos_open_on_phone" tools:ignore="UnusedResources">Open on phone</string>
+
+    <!-- PodPulse Cloud & Features -->
+    <string name="podpulse_brand_name">PodPulse</string>
+    <string name="podpulse_sync_label">PodPulse Cloud Sync</string>
+    <string name="podpulse_sync_summary">Synchronize subscriptions, playback position, and smart playlists with your private server</string>
+    <string name="smart_playlists_label">Smart Playlists</string>
+    <string name="smart_queue_label">Dynamic Queue</string>
+    <string name="ai_summary_label">AI Episode Summary</string>
+    <string name="ai_summary_loading">Generating summary…</string>
+    <string name="ai_key_takeaways">Key Takeaways</string>
+    <string name="queue_filter_all">All Episodes</string>
+    <string name="queue_filter_quick_commute">Quick Commute (&lt; 20m)</string>
+    <string name="queue_filter_medium">Medium Length (20-45m)</string>
+    <string name="queue_filter_deep_dive">Deep Dive (&gt; 45m)</string>
+    <string name="queue_filter_downloaded">Downloaded Only</string>
+    <string name="pref_voice_boost_title">Voice Boost</string>
+    <string name="pref_voice_boost_summary">Enhance speech clarity and vocal presence using loudness equalization</string>
+
+    <!-- Trending & Category Discovery -->
+    <string name="category_all">All</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_business">Business</string>
+    <string name="category_society_culture">Society &amp; Culture</string>
+    <string name="category_news">News</string>
+    <string name="category_comedy">Comedy</string>
+    <string name="category_education">Education</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_religion_spirituality">Religion &amp; Spirituality</string>
+    <string name="trending_in_country">Trending in %1$s</string>
+    <string name="home_trending_title">Trending &amp; Top Podcasts</string>
+    <string name="see_all">See all</string>
+
+    <!-- Voice Boost Gain Strings -->
+    <string name="voice_boost_gain_title">Volume Gain Boost</string>
+    <string name="voice_boost_gain_format">+%1$d dB</string>
+    <string name="voice_boost_preset_mild">Soft (+3 dB)</string>
+    <string name="voice_boost_preset_balanced">Clarity (+6 dB)</string>
+    <string name="voice_boost_preset_high">High (+9 dB)</string>
+    <string name="voice_boost_preset_max">Max (+12 dB)</string>
+    <string name="voice_boost_explanation">Amplify low-volume episodes and clarify spoken vocals.</string>
+
+    <!-- Color Themes & Palettes -->
+    <string name="pref_theme_palette_title">Accent Color Theme</string>
+    <string name="pref_theme_palette_summary">Choose your app accent color and visual theme</string>
+    <string name="palette_indigo">PodPulse Indigo (Default)</string>
+    <string name="palette_coral">Sunset Coral</string>
+    <string name="palette_emerald">Emerald Forest</string>
+    <string name="palette_cyan">Ocean Cyan</string>
+    <string name="palette_amber">Solar Amber</string>
+    <string name="palette_purple">Neon Violet</string>
+    <string name="app_subtitle_podpulse">NextGen Podcast Player</string>
+
+    <!-- Wavy Progress Scrubber -->
+    <string name="pref_wavy_seekbar_title">Wavy Progress Bar</string>
+    <string name="pref_wavy_seekbar_summary">Animate the progress scrubber with Google-style sound waves during playback</string>
 </resources>

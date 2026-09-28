@@ -50,7 +50,7 @@
             android:layout_marginTop="@dimen/listitem_threeline_verticalpadding"
             android:layout_marginEnd="@dimen/listitem_threeline_textleftpadding"
             app:cardBackgroundColor="@color/non_square_icon_background"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="12dp"
             app:cardPreventCornerOverlap="false"
             app:cardElevation="0dp">
 

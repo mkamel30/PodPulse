@@ -37,19 +37,24 @@ import de.danoeh.antennapod.event.PlayerStatusEvent;
 import de.danoeh.antennapod.model.feed.Feed;
 import de.danoeh.antennapod.playback.service.PlaybackService;
 import de.danoeh.antennapod.playback.service.PlaybackServiceStarter;
+import de.danoeh.antennapod.playback.service.internal.MediaLibrarySessionCallback;
 import de.danoeh.antennapod.storage.database.DBReader;
 import de.danoeh.antennapod.storage.preferences.PlaybackPreferences;
+import de.danoeh.antennapod.storage.preferences.UserPreferences;
 import de.danoeh.antennapod.ui.appstartintent.MainActivityStarter;
 import de.danoeh.antennapod.ui.appstartintent.MediaButtonStarter;
 import de.danoeh.antennapod.ui.appstartintent.OnlineFeedviewActivityStarter;
 import de.danoeh.antennapod.ui.chapters.ChapterUtils;
+import de.danoeh.antennapod.ui.common.ThemeUtils;
 import de.danoeh.antennapod.ui.screen.chapter.ChaptersFragment;
+import de.danoeh.antennapod.ui.screen.playback.VoiceBoostDialog;
 import de.danoeh.antennapod.playback.service.PlaybackController;
 import de.danoeh.antennapod.ui.common.DateFormatter;
 import de.danoeh.antennapod.databinding.CoverFragmentBinding;
 import de.danoeh.antennapod.event.playback.PlaybackPositionEvent;
 import de.danoeh.antennapod.model.feed.Chapter;
 import de.danoeh.antennapod.model.feed.EmbeddedChapterImage;
+import de.danoeh.antennapod.model.feed.FeedItem;
 import de.danoeh.antennapod.model.feed.FeedMedia;
 import de.danoeh.antennapod.model.playback.Playable;
 import de.danoeh.antennapod.ui.episodes.ImageResourceUtils;
@@ -58,10 +63,19 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.apache.commons.lang3.StringUtils;
+import de.danoeh.antennapod.actionbutton.DownloadActionButton;
+import de.danoeh.antennapod.event.FeedItemEvent;
+import de.danoeh.antennapod.event.playback.SpeedChangedEvent;
+import de.danoeh.antennapod.storage.database.DBWriter;
+import de.danoeh.antennapod.ui.episodes.PlaybackSpeedUtils;
+import de.danoeh.antennapod.ui.screen.playback.SleepTimerDialog;
+import de.danoeh.antennapod.ui.screen.playback.VariableSpeedDialog;
+import de.danoeh.antennapod.ui.share.ShareDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Collections;
 import java.util.List;
 
 import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
@@ -111,6 +125,51 @@ public class CoverFragment extends Fragment {
                 new ChaptersFragment().show(getChildFragmentManager(), ChaptersFragment.TAG));
         viewBinding.butPrevChapter.setOnClickListener(v -> seekToPrevChapter());
         viewBinding.butNextChapter.setOnClickListener(v -> seekToNextChapter());
+        viewBinding.chipSleepTimer.setOnClickListener(v ->
+                new SleepTimerDialog().show(getChildFragmentManager(), "SleepTimerDialog"));
+        viewBinding.chipShare.setOnClickListener(v -> {
+            if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+                ShareDialog.newInstance(((FeedMedia) media).getItem())
+                        .show(getParentFragmentManager(), "ShareEpisodeDialog");
+            }
+        });
+        viewBinding.chipAddToQueue.setOnClickListener(v -> {
+            if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+                DBWriter.addQueueItem(requireContext(), ((FeedMedia) media).getItem());
+            }
+        });
+        viewBinding.chipSpeed.setOnClickListener(v ->
+                new VariableSpeedDialog().show(getChildFragmentManager(), null));
+        viewBinding.chipDownload.setOnClickListener(v -> {
+            if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+                new DownloadActionButton(((FeedMedia) media).getItem()).onClick(requireContext());
+            }
+        });
+        viewBinding.chipFavorite.setOnClickListener(v -> {
+            if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+                FeedItem item = ((FeedMedia) media).getItem();
+                if (item.isTagged(FeedItem.TAG_FAVORITE)) {
+                    DBWriter.removeFavoriteItems(Collections.singletonList(item));
+                } else {
+                    DBWriter.addFavoriteItems(Collections.singletonList(item));
+                }
+            }
+        });
+        viewBinding.voiceBoostButton.setOnClickListener(v -> {
+            boolean newState = !UserPreferences.isVoiceBoost();
+            UserPreferences.setVoiceBoost(newState);
+            if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
+                PlaybackController.bindToMedia3Service(getContext(), mediaController ->
+                        mediaController.sendCustomCommand(MediaLibrarySessionCallback.SESSION_COMMAND_VOICE_BOOST,
+                                MediaLibrarySessionCallback.createBundle(newState)));
+            }
+            updateVoiceBoostState();
+        });
+        viewBinding.voiceBoostButton.setOnLongClickListener(v -> {
+            new VoiceBoostDialog().show(getChildFragmentManager(), VoiceBoostDialog.TAG);
+            return true;
+        });
+        updateVoiceBoostState();
         return viewBinding.getRoot();
     }
 
@@ -187,6 +246,14 @@ public class CoverFragment extends Fragment {
             }
         });
         
+        float playbackSpeed = PlaybackSpeedUtils.getCurrentPlaybackSpeed(media);
+        String speedStr = (playbackSpeed == (long) playbackSpeed) ? String.format("%.0fx", playbackSpeed) : String.format("%.2fx", playbackSpeed);
+        viewBinding.txtvChipSpeed.setText(speedStr);
+        if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+            boolean isFav = ((FeedMedia) media).getItem().isTagged(FeedItem.TAG_FAVORITE);
+            viewBinding.chipFavorite.setImageResource(isFav ? R.drawable.ic_star : R.drawable.ic_star_border);
+        }
+
         displayedChapterIndex = -1;
         refreshChapterData(Chapter.getAfterPosition(media.getChapters(), media.getPosition()));
         updateChapterControlVisibility();
@@ -280,6 +347,7 @@ public class CoverFragment extends Fragment {
     public void onStart() {
         super.onStart();
         loadMediaInfo(false);
+        updateVoiceBoostState();
         EventBus.getDefault().register(this);
     }
 
@@ -305,6 +373,27 @@ public class CoverFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onItemsUpdate(FeedItemEvent event) {
+        if (media == null) {
+            return;
+        }
+        if (media instanceof FeedMedia && ((FeedMedia) media).getItem() != null) {
+            if (FeedItemEvent.indexOfItemWithId(event.items, ((FeedMedia) media).getItem().getId()) != -1) {
+                loadMediaInfo(false);
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSpeedChanged(SpeedChangedEvent event) {
+        if (viewBinding != null) {
+            float speed = event.getNewSpeed();
+            String speedStr = (speed == (long) speed) ? String.format("%.0fx", speed) : String.format("%.2fx", speed);
+            viewBinding.txtvChipSpeed.setText(speedStr);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(PlaybackPositionEvent event) {
         if (media == null) {
             return;
@@ -319,7 +408,7 @@ public class CoverFragment extends Fragment {
         RequestOptions options = new RequestOptions()
                 .dontAnimate()
                 .transform(new FitCenter(),
-                        new RoundedCorners((int) (16 * getResources().getDisplayMetrics().density)));
+                        new RoundedCorners((int) (24 * getResources().getDisplayMetrics().density)));
 
         RequestBuilder<Drawable> cover = Glide.with(this)
                 .load(media.getImageLocation())
@@ -366,6 +455,26 @@ public class CoverFragment extends Fragment {
             viewBinding.coverFragment.addView(viewBinding.episodeDetails);
         } else {
             viewBinding.coverFragmentTextContainer.addView(viewBinding.episodeDetails);
+        }
+    }
+
+    private void updateVoiceBoostState() {
+        if (viewBinding == null) {
+            return;
+        }
+        boolean enabled = UserPreferences.isVoiceBoost();
+        if (enabled) {
+            viewBinding.voiceBoostButton.setBackgroundResource(R.drawable.bg_voice_boost_active);
+            viewBinding.voiceBoostIcon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white));
+            viewBinding.voiceBoostLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            int gainDb = UserPreferences.getVoiceBoostGainDb();
+            viewBinding.voiceBoostLabel.setText(getString(R.string.pref_voice_boost_title) + " +" + gainDb + "dB");
+        } else {
+            viewBinding.voiceBoostButton.setBackgroundResource(R.drawable.grey_border);
+            int textColorSecondary = ThemeUtils.getColorFromAttr(requireContext(), android.R.attr.textColorSecondary);
+            viewBinding.voiceBoostIcon.setColorFilter(textColorSecondary);
+            viewBinding.voiceBoostLabel.setTextColor(textColorSecondary);
+            viewBinding.voiceBoostLabel.setText(R.string.pref_voice_boost_title);
         }
     }
 

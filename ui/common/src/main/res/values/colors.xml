@@ -10,23 +10,54 @@
     <color name="image_readability_tint">#80000000</color>
     <color name="feed_text_bg">#55333333</color>
 
-    <!-- Theme colors -->
-    <color name="background_light">#f9fcff</color>
-    <color name="background_elevated_light">#EFEEEE</color>
-    <color name="background_darktheme">#21272b</color>
-    <color name="background_elevated_darktheme">#2D3337</color>
+    <!-- Theme colors (Aligned to Stitch Obsidian Audio & Porcelain Sonic) -->
+    <color name="background_light">#faf8ff</color>
+    <color name="background_elevated_light">#eaedff</color>
+    <color name="background_darktheme">#10141a</color>
+    <color name="background_elevated_darktheme">#1c2026</color>
     <color name="non_square_icon_background">#22777777</color>
     <color name="seek_background_light">#90000000</color>
     <color name="seek_background_dark">#905B5B5B</color>
-    <color name="text_color_secondary_light">#444444</color>
-    <color name="text_color_secondary_dark">#cccccc</color>
-    <color name="color_surface_variant_light">#D3DCE0</color>
-    <color name="color_surface_variant_dark">#2F3B4F</color>
-    <color name="color_secondary_container_light">#C8D8DE</color>
-    <color name="color_secondary_container_dark">#3C4E68</color>
+    <color name="text_color_secondary_light">#494455</color>
+    <color name="text_color_secondary_dark">#cac3d8</color>
+    <color name="color_surface_variant_light">#dae2fd</color>
+    <color name="color_surface_variant_dark">#262a31</color>
+    <color name="color_secondary_container_light">#00e3fd</color>
+    <color name="color_secondary_container_dark">#7c4dff</color>
 
-    <color name="accent_light">#0078C2</color>
-    <color name="accent_dark">#3D8BFF</color>
+    <color name="accent_light">#5856D6</color>
+    <color name="accent_dark">#7C7AF7</color>
+
+    <!-- PodPulse Color Palettes -->
+    <!-- Sunset Coral -->
+    <color name="palette_coral_light">#FF4757</color>
+    <color name="palette_coral_dark">#FF6B81</color>
+    <color name="palette_coral_container_light">#FFE8EC</color>
+    <color name="palette_coral_container_dark">#3D1B22</color>
+
+    <!-- Emerald Forest -->
+    <color name="palette_emerald_light">#00B894</color>
+    <color name="palette_emerald_dark">#55EFC4</color>
+    <color name="palette_emerald_container_light">#E0F8F1</color>
+    <color name="palette_emerald_container_dark">#143328</color>
+
+    <!-- Ocean Cyan -->
+    <color name="palette_cyan_light">#0984E3</color>
+    <color name="palette_cyan_dark">#74B9FF</color>
+    <color name="palette_cyan_container_light">#E1F0FD</color>
+    <color name="palette_cyan_container_dark">#162C42</color>
+
+    <!-- Solar Amber -->
+    <color name="palette_amber_light">#D97706</color>
+    <color name="palette_amber_dark">#FBBF24</color>
+    <color name="palette_amber_container_light">#FEF3C7</color>
+    <color name="palette_amber_container_dark">#3A2B10</color>
+
+    <!-- Neon Violet -->
+    <color name="palette_purple_light">#8E44AD</color>
+    <color name="palette_purple_dark">#BB86FC</color>
+    <color name="palette_purple_container_light">#F4E8F8</color>
+    <color name="palette_purple_container_dark">#2E1643</color>
 
     <color name="gradient_000">#364ff3</color>
     <color name="gradient_025">#2E6FF6</color>

@@ -136,6 +136,27 @@ public class AudioPlayerFragment extends Fragment implements
         butFF = root.findViewById(R.id.butFF);
         txtvFF = root.findViewById(R.id.txtvFF);
         butSkip = root.findViewById(R.id.butSkip);
+        final View butSkipPrev = root.findViewById(R.id.butSkipPrev);
+        if (butSkipPrev != null) {
+            butSkipPrev.setOnClickListener(v -> {
+                if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
+                    PlaybackController.bindToMedia3Service(getContext(), MediaController::seekToPreviousMediaItem);
+                } else {
+                    getActivity().sendBroadcast(
+                            MediaButtonStarter.createIntent(getContext(), KeyEvent.KEYCODE_MEDIA_PREVIOUS));
+                }
+            });
+        }
+        final View btnQueueBottomPill = root.findViewById(R.id.btnQueueBottomPill);
+        if (btnQueueBottomPill != null) {
+            btnQueueBottomPill.setOnClickListener(v -> {
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.getBottomSheet().setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    activity.loadFragment(de.danoeh.antennapod.ui.screen.queue.QueueFragment.TAG, null);
+                }
+            });
+        }
         progressIndicator = root.findViewById(R.id.progLoading);
         cardViewSeek = root.findViewById(R.id.cardViewSeek);
         txtvSeek = root.findViewById(R.id.txtvSeek);
@@ -143,7 +164,9 @@ public class AudioPlayerFragment extends Fragment implements
         setupLengthTextView();
         setupControlButtons();
         final ImageButton butPlaybackSpeed = root.findViewById(R.id.butPlaybackSpeed);
-        butPlaybackSpeed.setOnClickListener(v -> new VariableSpeedDialog().show(getChildFragmentManager(), null));
+        if (butPlaybackSpeed != null) {
+            butPlaybackSpeed.setOnClickListener(v -> new VariableSpeedDialog().show(getChildFragmentManager(), null));
+        }
         sbPosition.setOnSeekBarChangeListener(this);
 
         pager = root.findViewById(R.id.pager);
@@ -318,6 +341,9 @@ public class AudioPlayerFragment extends Fragment implements
         boolean isPlaying = PlaybackService.isRunning
                 && PlaybackPreferences.getCurrentPlayerStatus() == PlaybackPreferences.PLAYER_STATUS_PLAYING;
         butPlay.setIsShowPlay(!isPlaying);
+        if (sbPosition != null) {
+            sbPosition.setIsPlaying(isPlaying);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -348,6 +374,9 @@ public class AudioPlayerFragment extends Fragment implements
     @Override
     public void onStop() {
         super.onStop();
+        if (sbPosition != null) {
+            sbPosition.setIsPlaying(false);
+        }
         progressIndicator.setVisibility(View.GONE);
         EventBus.getDefault().unregister(this);
         if (disposable != null) {

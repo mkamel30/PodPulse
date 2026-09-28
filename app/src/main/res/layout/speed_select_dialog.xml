@@ -48,4 +48,10 @@
         android:layout_height="wrap_content"
         android:text="@string/pref_skip_silence_title" />
 
+    <CheckBox
+        android:id="@+id/voiceBoost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_voice_boost_title" />
+
 </LinearLayout>

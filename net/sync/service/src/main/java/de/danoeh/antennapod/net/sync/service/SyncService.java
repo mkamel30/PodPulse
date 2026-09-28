@@ -356,6 +356,7 @@ public class SyncService extends Worker {
             return null;
         }
         switch (selectedService) {
+            case PODPULSE_CLOUD:
             case GPODDER_NET:
                 return new GpodnetService(AntennapodHttpClient.getHttpClient(),
                         SynchronizationCredentials.getHosturl(), SynchronizationCredentials.getDeviceId(),

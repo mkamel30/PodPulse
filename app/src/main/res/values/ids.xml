@@ -20,6 +20,7 @@
 
     <!-- Home sections -->
     <item name="home_section_echo" type="id"/>
+    <item name="home_section_trending" type="id"/>
     <item name="home_section_queue" type="id"/>
     <item name="home_section_inbox" type="id"/>
     <item name="home_section_surprise" type="id"/>

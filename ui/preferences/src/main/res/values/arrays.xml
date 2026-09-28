@@ -241,6 +241,7 @@
     <string-array name="home_section_titles">
         <item>@string/home_continue_title</item>
         <item>@string/home_new_title</item>
+        <item>@string/home_trending_title</item>
         <item>@string/home_surprise_title</item>
         <item>@string/home_classics_title</item>
         <item>@string/home_downloads_title</item>
@@ -249,6 +250,7 @@
     <string-array name="home_section_tags">
         <item>QueueSection</item>
         <item>InboxSection</item>
+        <item>TrendingSection</item>
         <item>EpisodesSurpriseSection</item>
         <item>SubscriptionsSection</item>
         <item>DownloadsSection</item>
@@ -279,5 +281,23 @@
         <item>@string/subscriptions_label</item>
         <item>@string/statistics_label</item>
         <item>@string/remember_last_page</item>
+    </string-array>
+
+    <string-array name="theme_palette_names">
+        <item>@string/palette_indigo</item>
+        <item>@string/palette_coral</item>
+        <item>@string/palette_emerald</item>
+        <item>@string/palette_cyan</item>
+        <item>@string/palette_amber</item>
+        <item>@string/palette_purple</item>
+    </string-array>
+
+    <string-array name="theme_palette_values">
+        <item>indigo</item>
+        <item>coral</item>
+        <item>emerald</item>
+        <item>cyan</item>
+        <item>amber</item>
+        <item>purple</item>
     </string-array>
 </resources>

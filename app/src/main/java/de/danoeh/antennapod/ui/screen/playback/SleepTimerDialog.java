@@ -201,6 +201,10 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
                 refreshUiState();
             }
         });
+        viewBinding.sleepTimerQuick15Button.setOnClickListener(v -> setQuickSleepTimer(15));
+        viewBinding.sleepTimerQuick30Button.setOnClickListener(v -> setQuickSleepTimer(30));
+        viewBinding.sleepTimerQuick45Button.setOnClickListener(v -> setQuickSleepTimer(45));
+        viewBinding.sleepTimerQuick60Button.setOnClickListener(v -> setQuickSleepTimer(60));
         viewBinding.playbackPreferencesButton.setOnClickListener(view -> {
             final Intent playbackIntent = new Intent(getActivity(), PreferenceActivity.class);
             playbackIntent.putExtra(PreferenceActivity.OPEN_PLAYBACK_SETTINGS, true);
@@ -243,32 +247,39 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
                 controller.disableSleepTimer();
             }
         });
-        viewBinding.setSleeptimerButton.setOnClickListener(v -> {
-            if (!PlaybackService.isRunning
-                    || (!BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE
-                            && controller != null && controller.getStatus() != PlayerStatus.PLAYING)) {
-                Snackbar.make(viewBinding.getRoot(), R.string.no_media_playing_label, Snackbar.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                SleepTimerPreferences.setLastTimer("" + getSelectedSleepTime());
-                long time = SleepTimerPreferences.timerMillisOrEpisodes();
-                if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
-                    PlaybackController.bindToMedia3Service(getActivity(), mediaController -> {
-                        mediaController.sendCustomCommand(
-                                MediaLibrarySessionCallback.SESSION_COMMAND_SET_SLEEP_TIMER,
-                                Bundle.EMPTY);
-                    });
-                } else if (controller != null) {
-                    controller.setSleepTimer(time);
-                }
-                Keyboard.hide(getActivity());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                Snackbar.make(viewBinding.getRoot(), R.string.time_dialog_invalid_input, Snackbar.LENGTH_LONG).show();
-            }
-        });
+        viewBinding.setSleeptimerButton.setOnClickListener(v -> setSleepTimer());
         return viewBinding.getRoot();
+    }
+
+    private void setQuickSleepTimer(int minutes) {
+        viewBinding.timeEditText.setText(String.valueOf(minutes));
+        setSleepTimer();
+    }
+
+    private void setSleepTimer() {
+        if (!PlaybackService.isRunning
+                || (!BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE
+                        && controller != null && controller.getStatus() != PlayerStatus.PLAYING)) {
+            Snackbar.make(viewBinding.getRoot(), R.string.no_media_playing_label, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        try {
+            SleepTimerPreferences.setLastTimer("" + getSelectedSleepTime());
+            long time = SleepTimerPreferences.timerMillisOrEpisodes();
+            if (BuildConfig.USE_MEDIA3_PLAYBACK_SERVICE) {
+                PlaybackController.bindToMedia3Service(getActivity(), mediaController -> {
+                    mediaController.sendCustomCommand(
+                            MediaLibrarySessionCallback.SESSION_COMMAND_SET_SLEEP_TIMER,
+                            Bundle.EMPTY);
+                });
+            } else if (controller != null) {
+                controller.setSleepTimer(time);
+            }
+            Keyboard.hide(getActivity());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Snackbar.make(viewBinding.getRoot(), R.string.time_dialog_invalid_input, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private boolean isSleepTimerConfiguredForMostOfTheDay() {
@@ -317,6 +328,7 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
         // let the user use anything other than 1 episode
         boolean isEpisodeType = SleepTimerPreferences.getSleepTimerType() == SleepTimerType.EPISODES;
         boolean noEpisodeSelection = isEpisodeType && !UserPreferences.isFollowQueue();
+        viewBinding.quickSleepTimerContainer.setVisibility(isEpisodeType ? View.GONE : View.VISIBLE);
 
         if (noEpisodeSelection) {
             viewBinding.timeEditText.setEnabled(false);

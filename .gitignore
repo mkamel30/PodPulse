@@ -33,3 +33,14 @@ gradle.properties
 .kotlin
 .claude
 .cursor
+sync-server/*.db
+sync-server/*.key
+sync-server/*.pem
+sync-server/.env*
+sync-server/__pycache__/
+sync-server/venv/
+*.db
+*.key
+*.pem
+stitch_export/
+stitch_*.zip

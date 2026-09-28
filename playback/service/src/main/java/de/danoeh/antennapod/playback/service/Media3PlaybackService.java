@@ -97,6 +97,13 @@ public class Media3PlaybackService extends MediaLibraryService {
     @Nullable
     private LoudnessEnhancer loudnessEnhancer = null;
     private float volumeAdaptionFactor = 1.0f;
+    private final android.content.SharedPreferences.OnSharedPreferenceChangeListener prefChangeListener =
+            (sharedPreferences, key) -> {
+                if (UserPreferences.PREF_VOICE_BOOST.equals(key)
+                        || UserPreferences.PREF_VOICE_BOOST_GAIN_DB.equals(key)) {
+                    applyVolumeAdaption(1.0f);
+                }
+            };
 
     @UnstableApi
     @Override
@@ -108,6 +115,8 @@ public class Media3PlaybackService extends MediaLibraryService {
                 NotificationUtils.CHANNEL_ID_PLAYING, R.string.notification_channel_playing);
         notificationProvider.setSmallIcon(R.drawable.ic_notification);
         setMediaNotificationProvider(notificationProvider);
+
+        UserPreferences.registerChangeListener(prefChangeListener);
 
         exoPlayer = ExoPlayerUtils.buildPlayer(this);
         exoPlayer.addListener(new Player.Listener() {
@@ -259,6 +268,15 @@ public class Media3PlaybackService extends MediaLibraryService {
                 PlaybackPreferences.setCurrentlyPlayingTemporarySkipSilence(enabled);
                 exoPlayer.setSkipSilenceEnabled(enabled);
                 return Futures.immediateFuture(new SessionResult(SessionResult.RESULT_SUCCESS));
+            } else if (customCommand.customAction.equals(SESSION_COMMAND_VOICE_BOOST.customAction)) {
+                boolean enabled = MediaLibrarySessionCallback.getBoolean(args, false);
+                int gainDb = MediaLibrarySessionCallback.getInt(args, -1);
+                UserPreferences.setVoiceBoost(enabled);
+                if (gainDb >= 0) {
+                    UserPreferences.setVoiceBoostGainDb(gainDb);
+                }
+                applyVolumeAdaption(1.0f);
+                return Futures.immediateFuture(new SessionResult(SessionResult.RESULT_SUCCESS));
             } else if (customCommand.customAction.equals(SESSION_COMMAND_SET_SLEEP_TIMER.customAction)) {
                 startSleepTimer(SleepTimerPreferences.timerMillisOrEpisodes());
                 return Futures.immediateFuture(new SessionResult(SessionResult.RESULT_SUCCESS));
@@ -394,6 +412,7 @@ public class Media3PlaybackService extends MediaLibraryService {
             sleepTimer = null;
         }
         EventBus.getDefault().unregister(this);
+        UserPreferences.unregisterChangeListener(prefChangeListener);
         if (mediaLoaderDisposable != null) {
             mediaLoaderDisposable.dispose();
             mediaLoaderDisposable = null;
@@ -404,7 +423,11 @@ public class Media3PlaybackService extends MediaLibraryService {
         }
         saveCurrentPosition();
         if (loudnessEnhancer != null) {
-            loudnessEnhancer.release();
+            try {
+                loudnessEnhancer.release();
+            } catch (Exception e) {
+                Log.d(TAG, "Error releasing LoudnessEnhancer: " + e);
+            }
             loudnessEnhancer = null;
         }
         if (player != null) {
@@ -631,10 +654,7 @@ public class Media3PlaybackService extends MediaLibraryService {
             return;
         }
         List<Chapter> chapters = currentPlayable.getChapters();
-        if (chapters == null) {
-            if (currentPlayable.getItem() != null) {
-                startNextInQueue(currentPlayable, true, false);
-            }
+        if (chapters == null || chapters.isEmpty()) {
             return;
         }
 
@@ -867,34 +887,59 @@ public class Media3PlaybackService extends MediaLibraryService {
     }
 
     private void initLoudnessEnhancer(int audioSessionId) {
-        if (!VolumeAdaptionSetting.isBoostSupported()) {
+        if (!VolumeAdaptionSetting.isBoostSupported() || audioSessionId <= 0) {
             return;
         }
         LoudnessEnhancer oldEnhancer = this.loudnessEnhancer;
+        LoudnessEnhancer newEnhancer = null;
         try {
-            LoudnessEnhancer newEnhancer = new LoudnessEnhancer(audioSessionId);
+            newEnhancer = new LoudnessEnhancer(audioSessionId);
             if (oldEnhancer != null) {
-                newEnhancer.setEnabled(oldEnhancer.getEnabled());
-                if (oldEnhancer.getEnabled()) {
-                    newEnhancer.setTargetGain((int) oldEnhancer.getTargetGain());
+                try {
+                    newEnhancer.setEnabled(oldEnhancer.getEnabled());
+                    if (oldEnhancer.getEnabled()) {
+                        newEnhancer.setTargetGain((int) oldEnhancer.getTargetGain());
+                    }
+                } catch (Exception ignored) {
                 }
-                oldEnhancer.release();
             }
             this.loudnessEnhancer = newEnhancer;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
+            Log.d(TAG, "Error initializing LoudnessEnhancer: " + e);
+            if (newEnhancer != null) {
+                try {
+                    newEnhancer.release();
+                } catch (Exception ignored) {
+                }
+            }
             this.loudnessEnhancer = null;
+        } finally {
+            if (oldEnhancer != null) {
+                try {
+                    oldEnhancer.release();
+                } catch (Exception ignored) {
+                }
+            }
         }
     }
 
     private void applyVolumeAdaption(float baseVolume) {
-        float v = baseVolume * volumeAdaptionFactor;
-        if (v > 1) {
+        float factor = volumeAdaptionFactor;
+        boolean voiceBoost = UserPreferences.isVoiceBoost();
+        int voiceBoostGainMB = 0;
+        if (voiceBoost) {
+            factor *= 1.3f;
+            voiceBoostGainMB = UserPreferences.getVoiceBoostGainDb() * 100;
+        }
+        float v = baseVolume * factor;
+        if (v > 1.0f || voiceBoostGainMB > 0) {
             player.setVolume(1.0f);
             try {
                 if (loudnessEnhancer != null) {
                     loudnessEnhancer.setEnabled(true);
-                    loudnessEnhancer.setTargetGain((int) (1000 * (v - 1)));
+                    int excessGainMB = v > 1.0f ? (int) Math.round(2000 * Math.log10(v)) : 0;
+                    int totalGainMB = Math.min(1400, excessGainMB + voiceBoostGainMB);
+                    loudnessEnhancer.setTargetGain(Math.max(0, totalGainMB));
                 }
             } catch (Exception e) {
                 Log.d(TAG, e.toString());

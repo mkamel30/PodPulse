@@ -47,12 +47,14 @@ public abstract class UserPreferences {
     public static final String PREF_THEME = "prefTheme";
     public static final String PREF_THEME_BLACK = "prefThemeBlack";
     public static final String PREF_TINTED_COLORS = "prefTintedColors";
+    public static final String PREF_THEME_PALETTE = "prefThemePalette";
     public static final String PREF_HIDDEN_DRAWER_ITEMS = "prefHiddenDrawerItems";
     public static final String PREF_DRAWER_ITEM_ORDER = "prefDrawerItemOrder";
     public static final String PREF_DRAWER_FEED_ORDER = "prefDrawerFeedOrder";
     public static final String PREF_DRAWER_FEED_COUNTER = "prefDrawerFeedIndicator";
     public static final String PREF_EXPANDED_NOTIFICATION = "prefExpandNotify";
     public static final String PREF_USE_EPISODE_COVER = "prefEpisodeCover";
+    public static final String PREF_WAVY_SEEKBAR = "prefWavySeekbar";
     public static final String PREF_SHOW_TIME_LEFT = "showTimeLeft";
     public static final String PREF_PERSISTENT_NOTIFICATION = "prefPersistNotify";
     public static final String PREF_FULL_NOTIFICATION_BUTTONS = "prefFullNotificationButtons";
@@ -122,6 +124,8 @@ public abstract class UserPreferences {
     // Mediaplayer
     private static final String PREF_PLAYBACK_SPEED = "prefPlaybackSpeed";
     public static final String PREF_PLAYBACK_SKIP_SILENCE = "prefSkipSilence";
+    public static final String PREF_VOICE_BOOST = "prefVoiceBoost";
+    public static final String PREF_VOICE_BOOST_GAIN_DB = "prefVoiceBoostGainDb";
     private static final String PREF_FAST_FORWARD_SECS = "prefFastForwardSecs";
     private static final String PREF_REWIND_SECS = "prefRewindSecs";
     private static final String PREF_QUEUE_LOCKED = "prefQueueLocked";
@@ -213,6 +217,45 @@ public abstract class UserPreferences {
 
     public static boolean getIsThemeColorTinted() {
         return Build.VERSION.SDK_INT >= 31 && prefs.getBoolean(PREF_TINTED_COLORS, false);
+    }
+
+    public static void setThemeColorTinted(boolean tinted) {
+        prefs.edit().putBoolean(PREF_TINTED_COLORS, tinted).apply();
+    }
+
+    public enum ThemePalette {
+        INDIGO, CORAL, EMERALD, CYAN, AMBER, PURPLE
+    }
+
+    public static ThemePalette getThemePalette() {
+        String val = prefs.getString(PREF_THEME_PALETTE, "indigo");
+        switch (val) {
+            case "coral":
+                return ThemePalette.CORAL;
+            case "emerald":
+                return ThemePalette.EMERALD;
+            case "cyan":
+                return ThemePalette.CYAN;
+            case "amber":
+                return ThemePalette.AMBER;
+            case "purple":
+                return ThemePalette.PURPLE;
+            case "indigo":
+            default:
+                return ThemePalette.INDIGO;
+        }
+    }
+
+    public static void setThemePalette(ThemePalette palette) {
+        prefs.edit().putString(PREF_THEME_PALETTE, palette.name().toLowerCase(java.util.Locale.ROOT)).apply();
+    }
+
+    public static boolean isWavySeekbarEnabled() {
+        return prefs.getBoolean(PREF_WAVY_SEEKBAR, true);
+    }
+
+    public static void setWavySeekbarEnabled(boolean enabled) {
+        prefs.edit().putBoolean(PREF_WAVY_SEEKBAR, enabled).apply();
     }
 
     public static List<String> getHiddenDrawerItems() {
@@ -470,6 +513,14 @@ public abstract class UserPreferences {
         return prefs.getBoolean(PREF_PLAYBACK_SKIP_SILENCE, false);
     }
 
+    public static boolean isVoiceBoost() {
+        return prefs.getBoolean(PREF_VOICE_BOOST, false);
+    }
+
+    public static int getVoiceBoostGainDb() {
+        return prefs.getInt(PREF_VOICE_BOOST_GAIN_DB, 6);
+    }
+
     public static List<Float> getPlaybackSpeedArray() {
         return readPlaybackSpeedArray(prefs.getString(PREF_PLAYBACK_SPEED_ARRAY, null));
     }
@@ -640,6 +691,26 @@ public abstract class UserPreferences {
 
     public static void setSkipSilence(boolean skipSilence) {
         prefs.edit().putBoolean(PREF_PLAYBACK_SKIP_SILENCE, skipSilence).apply();
+    }
+
+    public static void setVoiceBoost(boolean voiceBoost) {
+        prefs.edit().putBoolean(PREF_VOICE_BOOST, voiceBoost).apply();
+    }
+
+    public static void setVoiceBoostGainDb(int gainDb) {
+        prefs.edit().putInt(PREF_VOICE_BOOST_GAIN_DB, Math.max(0, Math.min(12, gainDb))).apply();
+    }
+
+    public static void registerChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        if (prefs != null) {
+            prefs.registerOnSharedPreferenceChangeListener(listener);
+        }
+    }
+
+    public static void unregisterChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        if (prefs != null) {
+            prefs.unregisterOnSharedPreferenceChangeListener(listener);
+        }
     }
 
     public static void setPlaybackSpeedArray(List<Float> speeds) {

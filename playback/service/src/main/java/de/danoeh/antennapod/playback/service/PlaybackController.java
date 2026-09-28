@@ -30,6 +30,7 @@ import de.danoeh.antennapod.event.playback.SpeedChangedEvent;
 import de.danoeh.antennapod.model.feed.FeedPreferences;
 import de.danoeh.antennapod.model.playback.MediaType;
 import de.danoeh.antennapod.storage.preferences.PlaybackPreferences;
+import de.danoeh.antennapod.storage.preferences.UserPreferences;
 import de.danoeh.antennapod.model.playback.Playable;
 import de.danoeh.antennapod.playback.base.PlaybackServiceMediaPlayer;
 import de.danoeh.antennapod.playback.base.PlayerStatus;
@@ -427,6 +428,14 @@ public abstract class PlaybackController {
         }
     }
 
+    public void setVoiceBoost(boolean voiceBoost) {
+        if (playbackService != null) {
+            playbackService.setVoiceBoost(voiceBoost);
+        } else {
+            UserPreferences.setVoiceBoost(voiceBoost);
+        }
+    }
+
     public float getCurrentPlaybackSpeedMultiplier() {
         if (playbackService != null) {
             return playbackService.getCurrentPlaybackSpeed();
@@ -441,6 +450,14 @@ public abstract class PlaybackController {
         } else {
             return PlaybackSpeedUtils.getCurrentSkipSilencePreference(getMedia())
                     == FeedPreferences.SkipSilence.AGGRESSIVE;
+        }
+    }
+
+    public boolean getCurrentPlaybackVoiceBoost() {
+        if (playbackService != null) {
+            return playbackService.getCurrentVoiceBoost();
+        } else {
+            return UserPreferences.isVoiceBoost();
         }
     }
 

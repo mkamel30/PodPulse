@@ -42,13 +42,55 @@ public class UserInterfacePreferencesFragment extends AnimatedPreferenceFragment
     }
 
     private void setupInterfaceScreen() {
-        Preference.OnPreferenceChangeListener restartApp = (preference, newValue) -> {
-            ActivityCompat.recreate(getActivity());
+        findPreference(UserPreferences.PREF_THEME).setOnPreferenceChangeListener((preference, newValue) -> {
+            if (getActivity() != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    if (getActivity() != null) {
+                        ActivityCompat.recreate(getActivity());
+                    }
+                });
+            }
             return true;
-        };
-        findPreference(UserPreferences.PREF_THEME).setOnPreferenceChangeListener(restartApp);
-        findPreference(UserPreferences.PREF_THEME_BLACK).setOnPreferenceChangeListener(restartApp);
-        findPreference(UserPreferences.PREF_TINTED_COLORS).setOnPreferenceChangeListener(restartApp);
+        });
+        findPreference(UserPreferences.PREF_THEME_BLACK).setOnPreferenceChangeListener((preference, newValue) -> {
+            if (getActivity() != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    if (getActivity() != null) {
+                        ActivityCompat.recreate(getActivity());
+                    }
+                });
+            }
+            return true;
+        });
+        findPreference(UserPreferences.PREF_THEME_PALETTE).setOnPreferenceChangeListener((preference, newValue) -> {
+            if (newValue instanceof String) {
+                try {
+                    UserPreferences.ThemePalette palette = UserPreferences.ThemePalette.valueOf(
+                            ((String) newValue).toUpperCase(java.util.Locale.ROOT));
+                    UserPreferences.setThemePalette(palette);
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+            UserPreferences.setThemeColorTinted(false);
+            if (getActivity() != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    if (getActivity() != null) {
+                        ActivityCompat.recreate(getActivity());
+                    }
+                });
+            }
+            return true;
+        });
+        findPreference(UserPreferences.PREF_TINTED_COLORS).setOnPreferenceChangeListener((preference, newValue) -> {
+            if (getActivity() != null) {
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+                    if (getActivity() != null) {
+                        ActivityCompat.recreate(getActivity());
+                    }
+                });
+            }
+            return true;
+        });
         if (Build.VERSION.SDK_INT < 31) {
             findPreference(UserPreferences.PREF_TINTED_COLORS).setVisible(false);
         }

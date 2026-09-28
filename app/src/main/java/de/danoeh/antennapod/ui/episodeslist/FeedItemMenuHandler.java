@@ -26,6 +26,7 @@ import de.danoeh.antennapod.storage.database.DBWriter;
 import de.danoeh.antennapod.ui.common.IntentUtils;
 import de.danoeh.antennapod.playback.service.PlaybackStatus;
 import de.danoeh.antennapod.ui.share.ShareUtils;
+import de.danoeh.antennapod.ui.screen.episode.AISummaryDialog;
 import de.danoeh.antennapod.ui.share.ShareDialog;
 import de.danoeh.antennapod.model.feed.FeedItem;
 import de.danoeh.antennapod.model.feed.FeedMedia;
@@ -129,6 +130,7 @@ public class FeedItemMenuHandler {
         setItemVisibility(menu, R.id.remove_item, canDelete);
         setItemVisibility(menu, R.id.download_item, canDownload);
         setItemVisibility(menu, R.id.transcript_item, canShowTranscript);
+        setItemVisibility(menu, R.id.ai_summary_item, selectedItems.size() == 1);
 
         if (selectedItems.size() == 1 && selectedItems.get(0).getFeed().getState() == Feed.STATE_NOT_SUBSCRIBED) {
             setItemVisibility(menu, R.id.mark_read_item, false);
@@ -227,6 +229,11 @@ public class FeedItemMenuHandler {
         } else if (menuItemId == R.id.share_item) {
             ShareDialog shareDialog = ShareDialog.newInstance(selectedItem);
             shareDialog.show((fragment.getActivity().getSupportFragmentManager()), "ShareEpisodeDialog");
+        } else if (menuItemId == R.id.ai_summary_item) {
+            if (fragment.isAdded() && fragment.getActivity() != null) {
+                AISummaryDialog summaryDialog = AISummaryDialog.newInstance(selectedItem);
+                summaryDialog.show(fragment.getChildFragmentManager(), AISummaryDialog.TAG);
+            }
         } else {
             Log.d(TAG, "Unknown menuItemId: " + menuItemId);
             return false;

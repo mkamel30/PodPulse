@@ -70,6 +70,8 @@ public class MediaLibrarySessionCallback implements MediaLibraryService.MediaLib
             = new SessionCommand("next_chapter", Bundle.EMPTY);
     public static final SessionCommand SESSION_COMMAND_SKIP_SILENCE
             = new SessionCommand("skip_silence", Bundle.EMPTY);
+    public static final SessionCommand SESSION_COMMAND_VOICE_BOOST
+            = new SessionCommand("voice_boost", Bundle.EMPTY);
     public static final SessionCommand SESSION_COMMAND_SET_SLEEP_TIMER
             = new SessionCommand("set_sleep_timer", Bundle.EMPTY);
     public static final SessionCommand SESSION_COMMAND_DISABLE_SLEEP_TIMER
@@ -91,8 +93,18 @@ public class MediaLibrarySessionCallback implements MediaLibraryService.MediaLib
         return args;
     }
 
+    public static Bundle createBundle(int value) {
+        Bundle args = new Bundle();
+        args.putInt(EXTRA_VALUE, value);
+        return args;
+    }
+
     public static boolean getBoolean(Bundle args, boolean defaultValue) {
         return args != null ? args.getBoolean(EXTRA_VALUE, defaultValue) : defaultValue;
+    }
+
+    public static int getInt(Bundle args, int defaultValue) {
+        return args != null ? args.getInt(EXTRA_VALUE, defaultValue) : defaultValue;
     }
 
     public static long getLong(Bundle args, long defaultValue) {
@@ -117,6 +129,7 @@ public class MediaLibrarySessionCallback implements MediaLibraryService.MediaLib
                 .add(SESSION_COMMAND_PLAYBACK_SPEED)
                 .add(SESSION_COMMAND_NEXT_CHAPTER)
                 .add(SESSION_COMMAND_SKIP_SILENCE)
+                .add(SESSION_COMMAND_VOICE_BOOST)
                 .add(SESSION_COMMAND_SET_SLEEP_TIMER)
                 .add(SESSION_COMMAND_DISABLE_SLEEP_TIMER)
                 .add(SESSION_COMMAND_EXTEND_SLEEP_TIMER)

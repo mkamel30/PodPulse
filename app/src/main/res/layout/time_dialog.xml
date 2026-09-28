@@ -45,6 +45,66 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/quickSleepTimerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/sleep_timer_quick_start"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/sleepTimerQuick15Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:text="@string/sleep_timer_preset_15"
+                        style="?attr/materialButtonOutlinedStyle" />
+
+                    <Button
+                        android:id="@+id/sleepTimerQuick30Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:text="@string/sleep_timer_preset_30"
+                        style="?attr/materialButtonOutlinedStyle" />
+
+                    <Button
+                        android:id="@+id/sleepTimerQuick45Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:text="@string/sleep_timer_preset_45"
+                        style="?attr/materialButtonOutlinedStyle" />
+
+                    <Button
+                        android:id="@+id/sleepTimerQuick60Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:text="@string/sleep_timer_preset_60"
+                        style="?attr/materialButtonOutlinedStyle" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/sleepTimerHintText"
                 android:layout_width="match_parent"

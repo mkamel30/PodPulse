@@ -68,6 +68,29 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
     private boolean hidden;
     private boolean needsConfirm;
     private MaterialToolbar toolbar;
+    private com.google.android.material.chip.ChipGroup categoryChipGroup;
+    private int selectedGenreId = 0;
+
+    private static class DiscoveryCategory {
+        final int genreId;
+        final int titleRes;
+        DiscoveryCategory(int genreId, int titleRes) {
+            this.genreId = genreId;
+            this.titleRes = titleRes;
+        }
+    }
+
+    private final DiscoveryCategory[] categories = new DiscoveryCategory[] {
+        new DiscoveryCategory(0, R.string.category_all),
+        new DiscoveryCategory(1318, R.string.category_technology),
+        new DiscoveryCategory(1321, R.string.category_business),
+        new DiscoveryCategory(1324, R.string.category_society_culture),
+        new DiscoveryCategory(1311, R.string.category_news),
+        new DiscoveryCategory(1303, R.string.category_comedy),
+        new DiscoveryCategory(1304, R.string.category_education),
+        new DiscoveryCategory(1545, R.string.category_sports),
+        new DiscoveryCategory(1314, R.string.category_religion_spirituality)
+    };
 
     public DiscoveryFragment() {
         // Required empty public constructor
@@ -118,6 +141,9 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
         discoverHideItem.setChecked(hidden);
         toolbar.setOnMenuItemClickListener(this);
 
+        categoryChipGroup = root.findViewById(R.id.categoryChipGroup);
+        setupCategoryChips();
+
         //Show information about the podcast when the list item is clicked
         gridView.setOnItemClickListener((parent, view1, position, id) -> {
             PodcastSearchResult podcast = searchResults.get(position);
@@ -132,8 +158,48 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
         butRetry = root.findViewById(R.id.butRetry);
         txtvEmpty = root.findViewById(android.R.id.empty);
 
-        loadToplist(countryCode);
+        updateToolbarTitle();
+        loadToplist(countryCode, selectedGenreId);
         return root;
+    }
+
+    private void updateToolbarTitle() {
+        if (toolbar == null) {
+            return;
+        }
+        Locale locale = new Locale("", countryCode);
+        String displayCountry = locale.getDisplayCountry();
+        if (displayCountry != null && !displayCountry.isEmpty()) {
+            toolbar.setTitle(getString(R.string.trending_in_country, displayCountry));
+        } else {
+            toolbar.setTitle(R.string.discover);
+        }
+    }
+
+    private void setupCategoryChips() {
+        if (categoryChipGroup == null || getContext() == null) {
+            return;
+        }
+        categoryChipGroup.removeAllViews();
+        for (int i = 0; i < categories.length; i++) {
+            final DiscoveryCategory cat = categories[i];
+            com.google.android.material.chip.Chip chip = new com.google.android.material.chip.Chip(getContext());
+            chip.setText(cat.titleRes);
+            chip.setCheckable(true);
+            chip.setClickable(true);
+            chip.setId(View.generateViewId());
+            if (cat.genreId == selectedGenreId) {
+                chip.setChecked(true);
+            }
+            final int genreId = cat.genreId;
+            chip.setOnClickListener(v -> {
+                if (selectedGenreId != genreId) {
+                    selectedGenreId = genreId;
+                    loadToplist(countryCode, selectedGenreId);
+                }
+            });
+            categoryChipGroup.addView(chip);
+        }
     }
 
     @Override
@@ -145,7 +211,7 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
         adapter = null;
     }
 
-    private void loadToplist(String country) {
+    private void loadToplist(String country, int genreId) {
         if (disposable != null) {
             disposable.dispose();
         }
@@ -175,7 +241,7 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
             butRetry.setOnClickListener(v -> {
                 prefs.edit().putBoolean(ItunesTopListLoader.PREF_KEY_NEEDS_CONFIRM, false).apply();
                 needsConfirm = false;
-                loadToplist(country);
+                loadToplist(country, genreId);
             });
             txtvEmpty.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
@@ -184,7 +250,7 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
 
         ItunesTopListLoader loader = new ItunesTopListLoader(getContext());
         disposable = Observable.fromCallable(() ->
-                        loader.loadToplist(country, NUM_OF_TOP_PODCASTS, DBReader.getFeedList()))
+                        loader.loadToplist(country, genreId, NUM_OF_TOP_PODCASTS, DBReader.getFeedList()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -197,7 +263,7 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
                         progressBar.setVisibility(View.GONE);
                         txtvError.setText(error.getMessage());
                         txtvError.setVisibility(View.VISIBLE);
-                        butRetry.setOnClickListener(v -> loadToplist(country));
+                        butRetry.setOnClickListener(v -> loadToplist(country, genreId));
                         butRetry.setVisibility(View.VISIBLE);
                     });
     }
@@ -211,7 +277,7 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
             prefs.edit().putBoolean(ItunesTopListLoader.PREF_KEY_HIDDEN_DISCOVERY_COUNTRY, hidden).apply();
 
             EventBus.getDefault().post(new DiscoveryDefaultUpdateEvent());
-            loadToplist(countryCode);
+            loadToplist(countryCode, selectedGenreId);
             return true;
         } else if (itemId == R.id.discover_countries_item) {
 
@@ -264,8 +330,9 @@ public class DiscoveryFragment extends Fragment implements Toolbar.OnMenuItemCli
                 prefs.edit().putBoolean(ItunesTopListLoader.PREF_KEY_HIDDEN_DISCOVERY_COUNTRY, hidden).apply();
                 prefs.edit().putString(ItunesTopListLoader.PREF_KEY_COUNTRY_CODE, countryCode).apply();
 
+                updateToolbarTitle();
                 EventBus.getDefault().post(new DiscoveryDefaultUpdateEvent());
-                loadToplist(countryCode);
+                loadToplist(countryCode, selectedGenreId);
             });
             builder.setNegativeButton(R.string.cancel_label, null);
             builder.show();

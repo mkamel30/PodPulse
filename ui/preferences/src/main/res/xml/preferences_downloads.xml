@@ -3,11 +3,13 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:search="http://schemas.android.com/apk/com.bytehamster.lib.preferencesearch">
 
-    <Preference
-        android:title="@string/choose_data_directory"
-        android:key="prefChooseDataDir"/>
+    <PreferenceCategory android:title="@string/download_settings_storage">
+        <Preference
+            android:title="@string/choose_data_directory"
+            android:key="prefChooseDataDir"/>
+    </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/automation">
+    <PreferenceCategory android:title="@string/download_settings_updates">
         <de.danoeh.antennapod.ui.preferences.preference.MaterialListPreference
             android:entryValues="@array/feed_refresh_interval_values"
             android:entries="@array/feed_refresh_interval_entries"
@@ -22,11 +24,17 @@
             android:title="@string/pref_new_episodes_action_title"
             android:summary="@string/pref_new_episodes_action_sum"
             android:defaultValue="1"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/smart_downloads_label">
         <Preference
             android:summary="@string/pref_automatic_download_sum"
             android:key="prefAutoDownloadSettings"
-            android:title="@string/pref_automatic_download_title"
+            android:title="@string/smart_downloads_label"
             search:ignore="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/download_settings_cleanup">
         <Preference
             android:key="prefAutoDeleteScreen"
             android:summary="@string/pref_auto_delete_sum"
@@ -39,7 +47,7 @@
             android:title="@string/pref_delete_removes_from_queue_title"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/download_pref_details">
+    <PreferenceCategory android:title="@string/download_settings_network">
         <de.danoeh.antennapod.ui.preferences.preference.MaterialMultiSelectListPreference
                 android:defaultValue="@array/mobile_update_default_value"
                 android:entries="@array/mobile_update_entries"

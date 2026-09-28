@@ -1762,6 +1762,17 @@ public class PlaybackService extends MediaBrowserServiceCompat {
         mediaPlayer.setPlaybackParams(getCurrentPlaybackSpeed(), skipSilence);
     }
 
+    public void setVoiceBoost(boolean voiceBoost) {
+        UserPreferences.setVoiceBoost(voiceBoost);
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(1.0f, 1.0f);
+        }
+    }
+
+    public boolean getCurrentVoiceBoost() {
+        return UserPreferences.isVoiceBoost();
+    }
+
     public float getCurrentPlaybackSpeed() {
         if (mediaPlayer == null) {
             return 1.0f;

@@ -51,6 +51,12 @@
         android:title="@string/reset_playback_position_label">
     </item>
     <item
+        android:id="@+id/ai_summary_item"
+        android:icon="@drawable/ic_info"
+        custom:showAsAction="ifRoom"
+        android:title="@string/ai_summary_label" />
+
+    <item
         android:id="@+id/visit_website_item"
         android:icon="@drawable/ic_web"
         custom:showAsAction="ifRoom|collapseActionView"

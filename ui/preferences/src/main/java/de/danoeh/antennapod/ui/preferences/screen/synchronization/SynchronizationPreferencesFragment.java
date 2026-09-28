@@ -136,7 +136,8 @@ public class SynchronizationPreferencesFragment extends AnimatedPreferenceFragme
         }
 
         Preference gpodnetSetLoginPreference = findPreference(PREFERENCE_GPODNET_SETLOGIN_INFORMATION);
-        gpodnetSetLoginPreference.setVisible(isProviderSelected(SynchronizationProvider.GPODDER_NET));
+        gpodnetSetLoginPreference.setVisible(isProviderSelected(SynchronizationProvider.GPODDER_NET)
+                || isProviderSelected(SynchronizationProvider.PODPULSE_CLOUD));
         gpodnetSetLoginPreference.setEnabled(loggedIn);
         findPreference(PREFERENCE_SYNC).setEnabled(loggedIn);
         findPreference(PREFERENCE_FORCE_FULL_SYNC).setEnabled(loggedIn);
@@ -201,8 +202,9 @@ public class SynchronizationPreferencesFragment extends AnimatedPreferenceFragme
         viewBinding.providerList.setAdapter(adapter);
         viewBinding.providerList.setOnItemClickListener((parent, view, position, id) -> {
             switch (providers[position]) {
+                case PODPULSE_CLOUD:
                 case GPODDER_NET:
-                    new GpodderAuthenticationFragment()
+                    GpodderAuthenticationFragment.newInstance(providers[position])
                             .show(getChildFragmentManager(), GpodderAuthenticationFragment.TAG);
                     break;
                 case NEXTCLOUD_GPODDER:
@@ -237,6 +239,8 @@ public class SynchronizationPreferencesFragment extends AnimatedPreferenceFragme
 
     private @StringRes int getProviderSummary(SynchronizationProvider provider) {
         switch (provider) {
+            case PODPULSE_CLOUD:
+                return R.string.podpulse_sync_summary;
             case GPODDER_NET:
                 return R.string.gpodnet_description;
             case NEXTCLOUD_GPODDER:
@@ -248,6 +252,7 @@ public class SynchronizationPreferencesFragment extends AnimatedPreferenceFragme
 
     private @DrawableRes int getProviderIcon(SynchronizationProvider provider) {
         switch (provider) {
+            case PODPULSE_CLOUD:
             case GPODDER_NET:
                 return R.drawable.gpodder_icon;
             case NEXTCLOUD_GPODDER:

@@ -1,44 +1,90 @@
-# AntennaPod
+# PodPulse ⚡
 
-[![GitHub check runs](https://img.shields.io/github/check-runs/AntennaPod/AntennaPod/develop)](https://github.com/AntennaPod/AntennaPod/actions/workflows/checks.yml?query=branch%3Adevelop)
-[![License: GPL v3](https://img.shields.io/github/license/AntennaPod/AntennaPod)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub Release](https://img.shields.io/github/v/release/AntennaPod/AntennaPod)](https://github.com/AntennaPod/AntennaPod/releases)
-[![https://img.shields.io/github/commits-since/AntennaPod/AntennaPod/latest/develop](https://img.shields.io/github/commits-since/AntennaPod/AntennaPod/latest/develop)](https://github.com/AntennaPod/AntennaPod/commits/develop/)
-[![Translations on Weblate](https://hosted.weblate.org/widget/antennapod/app/svg-badge.svg?native=1)](https://hosted.weblate.org/engage/antennapod/)
-[![Good first issue](https://img.shields.io/github/issues-search?query=repo%3AAntennaPod%2FAntennaPod%20is%3Aopen%20is%3Aissue%20label%3A%22Good%20first%20issue%22&label=Good%20first%20issue&labelColor=grey&color=%235F1984)](https://github.com/AntennaPod/AntennaPod/labels/Good%20first%20issue)
+<p align="center">
+  <img src="ui/common/src/main/res/drawable-nodpi/logo_monochrome.png" alt="PodPulse Logo" width="128" height="128"/>
+</p>
 
-This is the official repository of AntennaPod, the easy-to-use, flexible and open-source podcast manager for Android.
+<p align="center">
+  <b>A Next-Gen, Audiophile Podcast Client for Android</b><br>
+  Built with Material You, AI Episode Summaries, Cloud Sync, and Audio Superpowers.
+</p>
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
-      alt="Get it on Google Play"
-      height="70">](https://play.google.com/store/apps/details?id=de.danoeh.antennapod)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-      alt="Get it on F-Droid"
-      height="70">](https://f-droid.org/app/de.danoeh.antennapod)
+<p align="center">
+  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="License: GPL v3"></a>
+  <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-brightgreen.svg" alt="Platform: Android">
+  <img src="https://img.shields.io/badge/Architecture-Modular%20Gradle-orange.svg" alt="Modular Gradle">
+  <img src="https://img.shields.io/badge/Design-Stitch%20Obsidian%20Audio-violet.svg" alt="Design">
+</p>
 
-<img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/00.png" alt="Screenshot 0" height="200"> <img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/01.png" alt="Screenshot 1" height="200"> <img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/02.png" alt="Screenshot 2" height="200"> <img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/03.png" alt="Screenshot 3" height="200"> <img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/04.png" alt="Screenshot 4" height="200"> <img src="https://raw.githubusercontent.com/AntennaPod/StoreMetadata/main/listings/en-US/graphics/phone-screenshots/05.png" alt="Screenshot 5" height="200">
+---
 
+## 🌟 About PodPulse
 
-## Feedback
-You can use the [AntennaPod Forum](https://forum.antennapod.org/) for discussions about the app or just podcasting in general.
+**PodPulse** is a modernized, feature-packed evolution of the open-source podcast experience. It combines a state-of-the-art **Spotify / Pocket Casts inspired UI/UX**, real-time **Google-style wavy soundwave scrubbing**, **AI Episode Summaries**, **Hardware Loudness Enhancement (Voice Boost dB slider)**, and high-performance **PodPulse Cloud Sync**.
 
-Bug reports and feature requests can be submitted [here](https://github.com/AntennaPod/AntennaPod/issues) (please read the [instructions](https://github.com/AntennaPod/AntennaPod/blob/develop/CONTRIBUTING.md) on how to report a bug and how to submit a feature request first!).
+> [!NOTE]
+> **Open Source Attribution & Lineage:**
+> **PodPulse** is proudly built on the rock-solid foundation of [AntennaPod](https://github.com/AntennaPod/AntennaPod), the premier open-source podcast manager for Android. We honor and preserve AntennaPod's dedication to privacy, open standards (RSS/Atom), and absence of commercial tracking, while introducing a modern redesign, new audio DSP superpowers, and intelligent organization.
+> 
+> Licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
 
-We also hold regular community calls to discuss anything AntennaPod-related. [Come join the next call](https://forum.antennapod.org/t/monthly-community-call/1869)!
+---
 
-## Help to test AntennaPod
-AntennaPod has many users and we don't want them to run into trouble when we add a new feature. It's important that we have a significant group test our app, so that we know all possible combinations of phones, Android versions and use cases work as expected. Check out our wiki on how to join our [Beta testing program](https://antennapod.org/documentation/general/beta)! If a bug is reported during the beta period, chances are high that it will be fixed before the upcoming stable version. If it is reported later, fixing might take another full beta cycle. So definitely let us know if something is not right.
+## ✨ Key Enhancements & New Features
 
-## License
+### 🎨 1. Obsidian Audio & Porcelain Sonic UI
+- **Redesigned Player Screen:**
+  - 24dp rounded hero artwork with overlapping frosted Info Badge (`ⓘ`) for instant show notes access.
+  - Clear typographic hierarchy: Bold 20sp podcast title over secondary episode title.
+  - Horizontal **Action Chips Row**: Quick Sleep Timer, Smart Share, Add to Queue, Dynamic Speed Chip, Download, and 1-tap Favorites.
+  - Ergonomic controls with a prominent 64dp vibrant circular Play/Pause button with neon glow.
+  - Floating bottom pill button for 1-tap navigation to the Up Next Queue.
+- **Google-Style Wavy/Squiggly Progress Bar:**
+  - Android 13/14 Pixel Media Player style sine-wave audio scrubber that undulates during playback and smoothly flattens on pause/drag.
+- **Deep Midnight Obsidian Dark Mode:**
+  - Replaces legacy greenish backgrounds with true midnight surfaces (`#10141A`, `#1C2026`) and vibrant high-contrast accents.
 
-AntennaPod is licensed under the GNU General Public License (GPL-3.0). You can find the license text in the [LICENSE](https://github.com/AntennaPod/AntennaPod/blob/develop/LICENSE) file.
+### 🧠 2. AI Episode Summaries (Gemini / Whisper)
+- Dedicated AI Summary dialog (`AISummaryDialog`) that synthesizes long podcast episodes into executive bullet points, key timestamps, and actionable takeaways.
+- 1-tap timestamp jumping to play directly from highlighted topics.
 
-## Translating AntennaPod
+### 🔊 3. Audio Superpowers & Voice Boost Slider
+- **Hardware LoudnessEnhancer:**
+  - Fine-grained decibel gain slider (+0dB to +12dB) designed specifically for quiet spoken-word recordings.
+  - Acoustically calibrated logarithmic millibel curve preventing clipping and audio distortion.
 
-If you want to translate AntennaPod into another language, you can visit our [Weblate page](https://hosted.weblate.org/projects/antennapod/).
+### 🔄 4. PodPulse Cloud Sync Architecture
+- Built-in integration with the lightweight, high-performance PodPulse Sync backend (`sync-server/`) built with FastAPI, SQLite WAL, and Gpodder 2.0 protocol compliance.
+- Supports multi-device playback synchronization and smart cloud queueing.
 
+---
 
-## Building AntennaPod
+## 🛠️ Building & Compiling
 
-You can build AntennaPod just like any other Android project. Refer to the [instructions](https://github.com/AntennaPod/AntennaPod/blob/develop/CONTRIBUTING.md) for more details.
+PodPulse uses a modularized Gradle architecture.
 
+### Prerequisites
+- JDK 17 or higher
+- Android SDK (API 34 / Build Tools 34.0.0)
+
+### Build Debug APK:
+```bash
+./gradlew :app:assembleDebug
+```
+Output APKs will be located at:
+- `app/build/outputs/apk/play/debug/app-play-debug.apk` (Recommended - includes Cast support)
+- `app/build/outputs/apk/free/debug/app-free-debug.apk` (F-Droid / Google-free variant)
+
+### Run Unit Tests:
+```bash
+./gradlew :app:testPlayDebugUnitTest
+./gradlew :playback:service:test
+```
+
+---
+
+## 📜 Credits & License
+
+- **Base Project:** [AntennaPod](https://github.com/AntennaPod/AntennaPod) (Copyright © AntennaPod Contributors).
+- **PodPulse Enhancements:** Created by Mohamed Kamel and contributors.
+- **License:** Distributed under the [GNU General Public License v3.0](LICENSE).

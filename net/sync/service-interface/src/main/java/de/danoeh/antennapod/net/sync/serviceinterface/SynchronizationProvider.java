@@ -1,6 +1,7 @@
 package de.danoeh.antennapod.net.sync.serviceinterface;
 
 public enum SynchronizationProvider {
+    PODPULSE_CLOUD("PODPULSE_CLOUD"),
     GPODDER_NET("GPODDER_NET"),
     NEXTCLOUD_GPODDER("NEXTCLOUD_GPODDER");
 

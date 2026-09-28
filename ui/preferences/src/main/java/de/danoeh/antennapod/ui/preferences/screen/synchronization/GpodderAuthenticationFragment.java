@@ -42,6 +42,15 @@ import java.util.regex.Pattern;
  */
 public class GpodderAuthenticationFragment extends DialogFragment {
     public static final String TAG = "GpodnetAuthActivity";
+    private static final String ARG_PROVIDER = "arg_provider";
+
+    public static GpodderAuthenticationFragment newInstance(SynchronizationProvider provider) {
+        GpodderAuthenticationFragment fragment = new GpodderAuthenticationFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PROVIDER, provider.getIdentifier());
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private ViewFlipper viewFlipper;
 
@@ -180,7 +189,8 @@ public class GpodderAuthenticationFragment extends DialogFragment {
                     }, error -> {
                             login.setEnabled(true);
                             progressBar.setVisibility(View.GONE);
-                            txtvError.setText(error.getCause().getMessage());
+                            String msg = error.getCause() != null ? error.getCause().getMessage() : error.getMessage();
+                            txtvError.setText(msg != null ? msg : error.toString());
                             txtvError.setVisibility(View.VISIBLE);
                         });
 
@@ -296,8 +306,10 @@ public class GpodderAuthenticationFragment extends DialogFragment {
                 if (selectedDevice == null) {
                     throw new IllegalStateException("Device must not be null here");
                 } else {
-                    SynchronizationSettings.setSelectedSyncProvider(
-                            SynchronizationProvider.GPODDER_NET.getIdentifier());
+                    String providerKey = getArguments() != null && getArguments().containsKey(ARG_PROVIDER)
+                            ? getArguments().getString(ARG_PROVIDER)
+                            : SynchronizationProvider.GPODDER_NET.getIdentifier();
+                    SynchronizationSettings.setSelectedSyncProvider(providerKey);
                     SynchronizationCredentials.setUsername(username);
                     SynchronizationCredentials.setPassword(password);
                     SynchronizationCredentials.setDeviceId(selectedDevice.getId());

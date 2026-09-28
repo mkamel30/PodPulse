@@ -39,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,6 +92,21 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean displayUpArrow;
 
+    public enum QueueFilterType {
+        ALL(R.string.queue_filter_all),
+        QUICK_COMMUTE(R.string.queue_filter_quick_commute),
+        MEDIUM(R.string.queue_filter_medium),
+        DEEP_DIVE(R.string.queue_filter_deep_dive),
+        DOWNLOADED(R.string.queue_filter_downloaded);
+
+        public final int titleRes;
+        QueueFilterType(int titleRes) {
+            this.titleRes = titleRes;
+        }
+    }
+
+    private QueueFilterType currentFilter = QueueFilterType.ALL;
+    private List<FeedItem> rawQueue;
     private List<FeedItem> queue;
 
     private static final String PREFS = "QueueFragment";
@@ -103,10 +119,18 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
     private FloatingSelectMenu floatingSelectMenu;
     private ProgressBar progressBar;
 
+    private static final String PREF_QUEUE_FILTER = "pref_queue_filter";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefs = getActivity().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        if (savedInstanceState != null && savedInstanceState.containsKey(PREF_QUEUE_FILTER)) {
+            try {
+                currentFilter = QueueFilterType.valueOf(savedInstanceState.getString(PREF_QUEUE_FILTER));
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     @Override
@@ -138,7 +162,7 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
         Log.d(TAG, "onEventMainThread() called with: " + "event = [" + event + "]");
         if (queue == null) {
             return;
-        } else if (recyclerAdapter == null) {
+        } else if (recyclerAdapter == null || currentFilter != QueueFilterType.ALL) {
             loadItems();
             return;
         }
@@ -296,6 +320,9 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
             return true;
         } else if (itemId == R.id.queue_sort) {
             new QueueSortDialog().show(getChildFragmentManager().beginTransaction(), "SortDialog");
+            return true;
+        } else if (itemId == R.id.queue_filter) {
+            showQueueFilterDialog();
             return true;
         } else if (itemId == R.id.refresh_item) {
             FeedUpdateManager.getInstance().runOnceOrAsk(requireContext());
@@ -496,10 +523,16 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean(KEY_UP_ARROW, displayUpArrow);
+        if (currentFilter != null) {
+            outState.putString(PREF_QUEUE_FILTER, currentFilter.name());
+        }
         super.onSaveInstanceState(outState);
     }
 
     private void refreshInfoBar() {
+        if (queue == null || infoBar == null) {
+            return;
+        }
         long timeLeft = 0;
         for (FeedItem item : queue) {
             float playbackSpeed = 1;
@@ -538,7 +571,8 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(itemsAndDisplayButton -> {
                     final boolean restoreScrollPosition = queue == null || queue.isEmpty();
-                    queue = itemsAndDisplayButton.first;
+                    rawQueue = itemsAndDisplayButton.first;
+                    queue = applyQueueFilter(rawQueue, currentFilter);
                     if (itemsAndDisplayButton.second) {
                         emptyView.setMessage(R.string.no_queue_items_inbox_has_items_label);
                         emptyView.setButtonText(R.string.no_queue_items_inbox_has_items_button_label);
@@ -556,6 +590,70 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
                     }
                     refreshInfoBar();
                 }, error -> Log.e(TAG, Log.getStackTraceString(error)));
+    }
+
+    private List<FeedItem> applyQueueFilter(List<FeedItem> items, QueueFilterType filter) {
+        if (filter == QueueFilterType.ALL || items == null) {
+            return items;
+        }
+        List<FeedItem> filtered = new ArrayList<>();
+        for (FeedItem item : items) {
+            long remainingSeconds = 0;
+            if (item.getMedia() != null) {
+                remainingSeconds = (item.getMedia().getDuration() - item.getMedia().getPosition()) / 1000;
+            }
+            switch (filter) {
+                case QUICK_COMMUTE:
+                    if (remainingSeconds > 0 && remainingSeconds <= 20 * 60) {
+                        filtered.add(item);
+                    }
+                    break;
+                case MEDIUM:
+                    if (remainingSeconds > 20 * 60 && remainingSeconds < 45 * 60) {
+                        filtered.add(item);
+                    }
+                    break;
+                case DEEP_DIVE:
+                    if (remainingSeconds >= 45 * 60) {
+                        filtered.add(item);
+                    }
+                    break;
+                case DOWNLOADED:
+                    if (item.getMedia() != null && item.getMedia().isDownloaded()) {
+                        filtered.add(item);
+                    }
+                    break;
+                default:
+                    filtered.add(item);
+                    break;
+            }
+        }
+        return filtered;
+    }
+
+    private void showQueueFilterDialog() {
+        QueueFilterType[] filterTypes = QueueFilterType.values();
+        CharSequence[] titles = new CharSequence[filterTypes.length];
+        int checkedItem = 0;
+        for (int i = 0; i < filterTypes.length; i++) {
+            titles[i] = getString(filterTypes[i].titleRes);
+            if (filterTypes[i] == currentFilter) {
+                checkedItem = i;
+            }
+        }
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.smart_queue_label)
+                .setSingleChoiceItems(titles, checkedItem, (dialog, which) -> {
+                    currentFilter = filterTypes[which];
+                    dialog.dismiss();
+                    if (rawQueue != null) {
+                        queue = applyQueueFilter(rawQueue, currentFilter);
+                        recyclerAdapter.updateItems(queue);
+                        refreshInfoBar();
+                    }
+                })
+                .setNegativeButton(R.string.cancel_label, null)
+                .show();
     }
 
     @Override
@@ -675,6 +773,9 @@ public class QueueFragment extends Fragment implements MaterialToolbar.OnMenuIte
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
                               @NonNull RecyclerView.ViewHolder target) {
+            if (currentFilter != QueueFilterType.ALL) {
+                return false;
+            }
             int fromPosition = viewHolder.getBindingAdapterPosition();
             int toPosition = target.getBindingAdapterPosition();
 

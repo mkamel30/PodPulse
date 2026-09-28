@@ -21,6 +21,12 @@
         android:checkable="true" />
 
     <item
+        android:id="@+id/queue_filter"
+        android:title="@string/smart_queue_label"
+        android:icon="@drawable/ic_filter"
+        custom:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/queue_sort"
         android:title="@string/sort" />
 

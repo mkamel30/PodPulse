@@ -1,90 +1,105 @@
-# PodPulse ⚡
-
 <p align="center">
-  <img src="ui/common/src/main/res/drawable-nodpi/logo_monochrome.png" alt="PodPulse Logo" width="128" height="128"/>
+  <img src="ui/common/src/main/res/drawable-nodpi/logo_monochrome.png" alt="PodPulse logo" width="128" height="128"/>
 </p>
 
+<h1 align="center">PodPulse</h1>
+
 <p align="center">
-  <b>A Next-Gen, Audiophile Podcast Client for Android</b><br>
-  Built with Material You, AI Episode Summaries, Cloud Sync, and Audio Superpowers.
+  An open-source podcast client for Android, focused on a calmer interface,<br>
+  a louder voice track, and summaries you can actually skim.
 </p>
 
 <p align="center">
   <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="License: GPL v3"></a>
-  <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-brightgreen.svg" alt="Platform: Android">
-  <img src="https://img.shields.io/badge/Architecture-Modular%20Gradle-orange.svg" alt="Modular Gradle">
-  <img src="https://img.shields.io/badge/Design-Stitch%20Obsidian%20Audio-violet.svg" alt="Design">
+  <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-brightgreen.svg" alt="Platform: Android 8.0+">
+  <img src="https://img.shields.io/badge/Architecture-Modular%20Gradle-orange.svg" alt="Architecture: modular Gradle">
 </p>
 
 ---
 
-## 🌟 About PodPulse
+## About
 
-**PodPulse** is a modernized, feature-packed evolution of the open-source podcast experience. It combines a state-of-the-art **Spotify / Pocket Casts inspired UI/UX**, real-time **Google-style wavy soundwave scrubbing**, **AI Episode Summaries**, **Hardware Loudness Enhancement (Voice Boost dB slider)**, and high-performance **PodPulse Cloud Sync**.
+PodPulse is a fork of [AntennaPod](https://github.com/AntennaPod/AntennaPod), the podcast manager most
+people in this space already know. We track upstream regularly, so fixes and new feed-parsing work land
+here too, and the ground rules that made AntennaPod worth using in the first place are unchanged:
+RSS and Atom only, no commercial tracking, no account required to listen.
 
-> [!NOTE]
-> **Open Source Attribution & Lineage:**
-> **PodPulse** is proudly built on the rock-solid foundation of [AntennaPod](https://github.com/AntennaPod/AntennaPod), the premier open-source podcast manager for Android. We honor and preserve AntennaPod's dedication to privacy, open standards (RSS/Atom), and absence of commercial tracking, while introducing a modern redesign, new audio DSP superpowers, and intelligent organization.
-> 
-> Licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+What we have added sits mostly on top of that: a redesigned player, a colour system that actually
+responds to the palette you pick, a hardware loudness boost for quiet spoken-word recordings, and an
+optional sync backend.
 
----
+## What is different
 
-## ✨ Key Enhancements & New Features
+### The player
 
-### 🎨 1. Obsidian Audio & Porcelain Sonic UI
-- **Redesigned Player Screen:**
-  - 24dp rounded hero artwork with overlapping frosted Info Badge (`ⓘ`) for instant show notes access.
-  - Clear typographic hierarchy: Bold 20sp podcast title over secondary episode title.
-  - Horizontal **Action Chips Row**: Quick Sleep Timer, Smart Share, Add to Queue, Dynamic Speed Chip, Download, and 1-tap Favorites.
-  - Ergonomic controls with a prominent 64dp vibrant circular Play/Pause button with neon glow.
-  - Floating bottom pill button for 1-tap navigation to the Up Next Queue.
-- **Google-Style Wavy/Squiggly Progress Bar:**
-  - Android 13/14 Pixel Media Player style sine-wave audio scrubber that undulates during playback and smoothly flattens on pause/drag.
-- **Deep Midnight Obsidian Dark Mode:**
-  - Replaces legacy greenish backgrounds with true midnight surfaces (`#10141A`, `#1C2026`) and vibrant high-contrast accents.
+The episode title is the headline now, with the show name as smaller context above it. That matches
+how people read a queue — you already know which podcast you subscribed to, you want to know which
+episode this is.
 
-### 🧠 2. AI Episode Summaries (Gemini / Whisper)
-- Dedicated AI Summary dialog (`AISummaryDialog`) that synthesizes long podcast episodes into executive bullet points, key timestamps, and actionable takeaways.
-- 1-tap timestamp jumping to play directly from highlighted topics.
+The cover art is rounded, and a shownotes shortcut sits in its corner rather than floating over it.
 
-### 🔊 3. Audio Superpowers & Voice Boost Slider
-- **Hardware LoudnessEnhancer:**
-  - Fine-grained decibel gain slider (+0dB to +12dB) designed specifically for quiet spoken-word recordings.
-  - Acoustically calibrated logarithmic millibel curve preventing clipping and audio distortion.
+Below that is a row of quick actions: sleep timer, share, add to queue, playback speed, download, and
+favourite. Each one clears the 44dp minimum touch target and is focusable, so they work with TalkBack
+or a d-pad rather than being touch-only.
 
-### 🔄 4. PodPulse Cloud Sync Architecture
-- Built-in integration with the lightweight, high-performance PodPulse Sync backend (`sync-server/`) built with FastAPI, SQLite WAL, and Gpodder 2.0 protocol compliance.
-- Supports multi-device playback synchronization and smart cloud queueing.
+The progress bar is a waveform. It ripples while audio is playing and settles flat when you pause or
+drag, which makes the scrub position much easier to read than a thin line.
 
----
+The play button is 72dp and takes its colour from whichever palette you have selected, with a subtle
+light-to-dark sheen over the top so it does not read as flat.
 
-## 🛠️ Building & Compiling
+### Colour and theming
 
-PodPulse uses a modularized Gradle architecture.
+There are six palettes — indigo, coral, emerald, cyan, amber, and purple — each with light, dark, and
+true-black variants. A palette now drives surfaces, chips, and selection highlights, not just the
+accent colour, so switching themes changes the whole screen instead of one button.
 
-### Prerequisites
-- JDK 17 or higher
-- Android SDK (API 34 / Build Tools 34.0.0)
+The dark themes use cool near-black neutrals (`#0f1115` for the background, `#1a1d23` for raised
+surfaces) rather than a coloured tint, so the palette accent stays the only thing carrying colour.
 
-### Build Debug APK:
+### Voice Boost
+
+Quiet recordings are a real problem for spoken word, especially at low volume or over a phone speaker.
+Voice Boost applies the platform `LoudnessEnhancer` from 0 to 12 dB, with four presets if you would
+rather not dial in a number. The gain curve is scaled so it stops short of clipping.
+
+### AI episode summaries
+
+A dialog that turns a long episode into bullet points with tappable timestamps, so you can jump to the
+part you actually care about. Summaries come from the PodPulse sync backend rather than running
+on-device, which means you can self-host the model choice and keep it off a third party.
+
+### PodPulse Cloud Sync
+
+`sync-server/` is a FastAPI service over SQLite in WAL mode, speaking the Gpodder 2.0 protocol that
+AntennaPod already uses. It syncs subscriptions and playback position across devices, and caches
+episode summaries. It is entirely optional — the app is fully functional without it.
+
+## Building
+
+PodPulse uses AntennaPod's modular Gradle setup.
+
+You need JDK 17 or newer, and Android SDK API 34 with build-tools 34.0.0.
+
 ```bash
 ./gradlew :app:assembleDebug
 ```
-Output APKs will be located at:
-- `app/build/outputs/apk/play/debug/app-play-debug.apk` (Recommended - includes Cast support)
-- `app/build/outputs/apk/free/debug/app-free-debug.apk` (F-Droid / Google-free variant)
 
-### Run Unit Tests:
+Two APKs come out of that:
+
+- `app/build/outputs/apk/play/debug/app-play-debug.apk` — includes Chromecast support
+- `app/build/outputs/apk/free/debug/app-free-debug.apk` — Google-free variant
+
+Tests:
+
 ```bash
 ./gradlew :app:testPlayDebugUnitTest
 ./gradlew :playback:service:test
 ```
 
----
+## Credits and licence
 
-## 📜 Credits & License
+Built on [AntennaPod](https://github.com/AntennaPod/AntennaPod) — © AntennaPod contributors.
+PodPulse changes by Mohamed Kamel and contributors.
 
-- **Base Project:** [AntennaPod](https://github.com/AntennaPod/AntennaPod) (Copyright © AntennaPod Contributors).
-- **PodPulse Enhancements:** Created by Mohamed Kamel and contributors.
-- **License:** Distributed under the [GNU General Public License v3.0](LICENSE).
+Distributed under the [GNU General Public License v3.0](LICENSE).

@@ -11,19 +11,33 @@
     <color name="feed_text_bg">#55333333</color>
 
     <!-- Theme colors (Aligned to Stitch Obsidian Audio & Porcelain Sonic) -->
-    <color name="background_light">#faf8ff</color>
-    <color name="background_elevated_light">#eaedff</color>
-    <color name="background_darktheme">#10141a</color>
-    <color name="background_elevated_darktheme">#1c2026</color>
+    <color name="background_light">#fafafc</color>
+    <color name="background_elevated_light">#ffffff</color>
+    <color name="background_darktheme">#0f1115</color>
+    <color name="background_elevated_darktheme">#1a1d23</color>
     <color name="non_square_icon_background">#22777777</color>
     <color name="seek_background_light">#90000000</color>
     <color name="seek_background_dark">#905B5B5B</color>
-    <color name="text_color_secondary_light">#494455</color>
-    <color name="text_color_secondary_dark">#cac3d8</color>
-    <color name="color_surface_variant_light">#dae2fd</color>
+    <color name="text_color_secondary_light">#57575f</color>
+    <color name="text_color_secondary_dark">#c3c6d0</color>
+    <color name="color_surface_variant_light">#e3e3ec</color>
     <color name="color_surface_variant_dark">#262a31</color>
-    <color name="color_secondary_container_light">#00e3fd</color>
-    <color name="color_secondary_container_dark">#7c4dff</color>
+    <color name="color_secondary_container_light">#e4e1fa</color>
+    <color name="color_secondary_container_dark">#2e2b4d</color>
+
+    <color name="surface_container_light">#f0f0f6</color>
+    <color name="surface_container_low_light">#f6f6fa</color>
+    <color name="surface_container_high_light">#eaeaf1</color>
+    <color name="surface_container_highest_light">#e4e4ec</color>
+    <color name="surface_container_dark">#191c22</color>
+    <color name="surface_container_low_dark">#13161b</color>
+    <color name="surface_container_high_dark">#20242a</color>
+    <color name="surface_container_highest_dark">#272b32</color>
+    <color name="surface_container_lowest_dark">#0a0c10</color>
+    <color name="color_primary_container_light">#e4e1fa</color>
+    <color name="color_primary_container_dark">#2e2b4d</color>
+    <color name="color_outline_variant_light">#d7d7e1</color>
+    <color name="color_outline_variant_dark">#363b44</color>
 
     <color name="accent_light">#5856D6</color>
     <color name="accent_dark">#7C7AF7</color>

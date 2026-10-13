@@ -31,7 +31,6 @@
             android:padding="8dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_settings"
-            tools:background="@android:color/holo_orange_dark"
             tools:src="@android:drawable/sym_def_app_icon" />
 
         <TextView
@@ -45,7 +44,7 @@
             android:text="@string/settings_label"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/text_size_navdrawer"
-            tools:background="@android:color/holo_green_light" />
+            tools:text="Settings" />
 
     </LinearLayout>
 
@@ -55,8 +54,7 @@
         android:layout_height="1dp"
         android:layout_above="@id/nav_settings"
         android:layout_centerVertical="true"
-        android:background="?android:attr/listDivider"
-        tools:background="@android:color/holo_red_dark" />
+        android:background="?android:attr/listDivider" />
 
     <LinearLayout
         android:id="@+id/nav_header"
@@ -88,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textSize="20sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="?android:attr/textColorPrimary" />
 
             <TextView

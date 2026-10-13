@@ -22,7 +22,6 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/trendingSeeAll"
             android:text="@string/home_trending_title"
-            android:textStyle="bold"
             style="@style/TextAppearance.Material3.TitleMedium" />
 
         <Button
@@ -71,7 +70,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:clipChildren="false"
-            android:paddingHorizontal="12dp"
+            android:paddingHorizontal="10dp"
             tools:itemCount="4" />
 
         <ProgressBar

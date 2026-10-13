@@ -16,8 +16,8 @@
         <item name="colorPrimary">@color/accent_light</item>
         <item name="colorAccent">@color/accent_light</item>
         <item name="colorSecondary">@color/accent_light</item>
-        <item name="colorPrimaryContainer">#EAE8FE</item>
-        <item name="colorSurfaceContainer">#F0F3F6</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container_light</item>
+        <item name="colorSurfaceContainer">@color/surface_container_light</item>
         <item name="background_color">@color/background_light</item>
         <item name="actionBarStyle">@style/Widget.AntennaPod.ActionBar</item>
         <item name="background_elevated">@color/background_elevated_light</item>
@@ -47,7 +47,7 @@
         <item name="colorSecondary">@color/accent_light</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryDark">@color/accent_light</item>
-        <item name="colorPrimaryContainer">#D6E6F3</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container_light</item>
         <item name="colorOnPrimaryContainer">@color/black</item>
         <item name="android:colorBackground">@color/background_light</item>
         <item name="colorSurface">@color/background_light</item>
@@ -55,18 +55,18 @@
         <item name="colorOnContainer">@color/black</item>
         <item name="colorSurfaceVariant">@color/color_surface_variant_light</item>
         <item name="colorOnSurfaceVariant">@color/text_color_secondary_light</item>
-        <item name="colorSurfaceContainer">#EBEEF3</item>
+        <item name="colorSurfaceContainer">@color/surface_container_light</item>
         <item name="colorSecondaryContainer">@color/color_secondary_container_light</item>
         <item name="colorOnSecondaryContainer">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorTertiary">@color/text_color_secondary_light</item>
         <item name="colorOutline">@color/text_color_secondary_light</item>
-        <item name="colorOutlineVariant">@color/text_color_secondary_light</item>
-        <item name="colorSurfaceContainerHigh">@color/color_surface_variant_light</item>
-        <item name="colorSurfaceContainerHighest">#C0CFD3</item>
-        <item name="colorSurfaceContainerLow">@color/color_surface_variant_light</item>
-        <item name="colorSurfaceContainerLowest">@color/color_surface_variant_light</item>
+        <item name="colorOutlineVariant">@color/color_outline_variant_light</item>
+        <item name="colorSurfaceContainerHigh">@color/surface_container_high_light</item>
+        <item name="colorSurfaceContainerHighest">@color/surface_container_highest_light</item>
+        <item name="colorSurfaceContainerLow">@color/surface_container_low_light</item>
+        <item name="colorSurfaceContainerLowest">@color/white</item>
     </style>
 
     <style name="Theme.AntennaPod.Dynamic.Dark" parent="Theme.Base.AntennaPod.Dynamic.Dark">
@@ -78,8 +78,8 @@
         <item name="colorPrimary">@color/accent_dark</item>
         <item name="colorAccent">@color/accent_dark</item>
         <item name="colorSecondary">@color/accent_dark</item>
-        <item name="colorPrimaryContainer">#252148</item>
-        <item name="colorSurfaceContainer">#1C2024</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container_dark</item>
+        <item name="colorSurfaceContainer">@color/surface_container_dark</item>
         <item name="background_color">@color/background_darktheme</item>
         <item name="background_elevated">@color/background_elevated_darktheme</item>
         <item name="action_icon_color">@color/white</item>
@@ -111,7 +111,7 @@
         <item name="colorSecondary">@color/accent_dark</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="colorPrimaryDark">@color/accent_dark</item>
-        <item name="colorPrimaryContainer">#29374E</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container_dark</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
         <item name="android:colorBackground">@color/background_darktheme</item>
         <item name="colorSurface">@color/background_darktheme</item>
@@ -119,18 +119,18 @@
         <item name="colorOnContainer">@color/white</item>
         <item name="colorSurfaceVariant">@color/color_surface_variant_dark</item>
         <item name="colorOnSurfaceVariant">@color/text_color_secondary_dark</item>
-        <item name="colorSurfaceContainer">#1C2024</item>
+        <item name="colorSurfaceContainer">@color/surface_container_dark</item>
         <item name="colorSecondaryContainer">@color/color_secondary_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
         <item name="android:textColorTertiary">@color/text_color_secondary_dark</item>
         <item name="colorOutline">@color/text_color_secondary_dark</item>
-        <item name="colorOutlineVariant">@color/text_color_secondary_dark</item>
-        <item name="colorSurfaceContainerHigh">@color/color_surface_variant_dark</item>
-        <item name="colorSurfaceContainerHighest">#38455C</item>
-        <item name="colorSurfaceContainerLow">@color/color_surface_variant_dark</item>
-        <item name="colorSurfaceContainerLowest">@color/color_surface_variant_dark</item>
+        <item name="colorOutlineVariant">@color/color_outline_variant_dark</item>
+        <item name="colorSurfaceContainerHigh">@color/surface_container_high_dark</item>
+        <item name="colorSurfaceContainerHighest">@color/surface_container_highest_dark</item>
+        <item name="colorSurfaceContainerLow">@color/surface_container_low_dark</item>
+        <item name="colorSurfaceContainerLowest">@color/surface_container_lowest_dark</item>
     </style>
 
     <style name="Theme.AntennaPod.Dynamic.TrueBlack" parent="Theme.AntennaPod.Dynamic.Dark">
@@ -149,7 +149,7 @@
         <item name="colorSurface">@color/black</item>
         <item name="background_color">@color/black</item>
         <item name="background_elevated">@color/black</item>
-        <item name="colorPrimaryContainer">#0D182B</item>
+        <item name="colorPrimaryContainer">#16161c</item>
         <item name="colorOnPrimaryContainer">@color/white</item>
     </style>
 
@@ -255,6 +255,7 @@
         <item name="colorAccent">@color/palette_coral_light</item>
         <item name="colorSecondary">@color/palette_coral_light</item>
         <item name="colorPrimaryDark">@color/palette_coral_light</item>
+        <item name="colorSurfaceVariant">@color/palette_coral_container_light</item>
         <item name="colorPrimaryContainer">@color/palette_coral_container_light</item>
         <item name="colorSecondaryContainer">@color/palette_coral_container_light</item>
         <item name="colorOnSecondaryContainer">@color/palette_coral_light</item>
@@ -279,6 +280,7 @@
         <item name="colorAccent">@color/palette_coral_dark</item>
         <item name="colorSecondary">@color/palette_coral_dark</item>
         <item name="colorPrimaryDark">@color/palette_coral_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_coral_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_coral_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_coral_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_coral_dark</item>
@@ -303,6 +305,7 @@
         <item name="colorAccent">@color/palette_coral_dark</item>
         <item name="colorSecondary">@color/palette_coral_dark</item>
         <item name="colorPrimaryDark">@color/palette_coral_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_coral_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_coral_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_coral_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_coral_dark</item>
@@ -328,6 +331,7 @@
         <item name="colorAccent">@color/palette_emerald_light</item>
         <item name="colorSecondary">@color/palette_emerald_light</item>
         <item name="colorPrimaryDark">@color/palette_emerald_light</item>
+        <item name="colorSurfaceVariant">@color/palette_emerald_container_light</item>
         <item name="colorPrimaryContainer">@color/palette_emerald_container_light</item>
         <item name="colorSecondaryContainer">@color/palette_emerald_container_light</item>
         <item name="colorOnSecondaryContainer">@color/palette_emerald_light</item>
@@ -352,6 +356,7 @@
         <item name="colorAccent">@color/palette_emerald_dark</item>
         <item name="colorSecondary">@color/palette_emerald_dark</item>
         <item name="colorPrimaryDark">@color/palette_emerald_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_emerald_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_emerald_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_emerald_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_emerald_dark</item>
@@ -376,6 +381,7 @@
         <item name="colorAccent">@color/palette_emerald_dark</item>
         <item name="colorSecondary">@color/palette_emerald_dark</item>
         <item name="colorPrimaryDark">@color/palette_emerald_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_emerald_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_emerald_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_emerald_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_emerald_dark</item>
@@ -401,6 +407,7 @@
         <item name="colorAccent">@color/palette_cyan_light</item>
         <item name="colorSecondary">@color/palette_cyan_light</item>
         <item name="colorPrimaryDark">@color/palette_cyan_light</item>
+        <item name="colorSurfaceVariant">@color/palette_cyan_container_light</item>
         <item name="colorPrimaryContainer">@color/palette_cyan_container_light</item>
         <item name="colorSecondaryContainer">@color/palette_cyan_container_light</item>
         <item name="colorOnSecondaryContainer">@color/palette_cyan_light</item>
@@ -425,6 +432,7 @@
         <item name="colorAccent">@color/palette_cyan_dark</item>
         <item name="colorSecondary">@color/palette_cyan_dark</item>
         <item name="colorPrimaryDark">@color/palette_cyan_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_cyan_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_cyan_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_cyan_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_cyan_dark</item>
@@ -449,6 +457,7 @@
         <item name="colorAccent">@color/palette_cyan_dark</item>
         <item name="colorSecondary">@color/palette_cyan_dark</item>
         <item name="colorPrimaryDark">@color/palette_cyan_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_cyan_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_cyan_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_cyan_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_cyan_dark</item>
@@ -474,6 +483,7 @@
         <item name="colorAccent">@color/palette_amber_light</item>
         <item name="colorSecondary">@color/palette_amber_light</item>
         <item name="colorPrimaryDark">@color/palette_amber_light</item>
+        <item name="colorSurfaceVariant">@color/palette_amber_container_light</item>
         <item name="colorPrimaryContainer">@color/palette_amber_container_light</item>
         <item name="colorSecondaryContainer">@color/palette_amber_container_light</item>
         <item name="colorOnSecondaryContainer">@color/palette_amber_light</item>
@@ -498,6 +508,7 @@
         <item name="colorAccent">@color/palette_amber_dark</item>
         <item name="colorSecondary">@color/palette_amber_dark</item>
         <item name="colorPrimaryDark">@color/palette_amber_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_amber_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_amber_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_amber_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_amber_dark</item>
@@ -522,6 +533,7 @@
         <item name="colorAccent">@color/palette_amber_dark</item>
         <item name="colorSecondary">@color/palette_amber_dark</item>
         <item name="colorPrimaryDark">@color/palette_amber_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_amber_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_amber_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_amber_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_amber_dark</item>
@@ -547,6 +559,7 @@
         <item name="colorAccent">@color/palette_purple_light</item>
         <item name="colorSecondary">@color/palette_purple_light</item>
         <item name="colorPrimaryDark">@color/palette_purple_light</item>
+        <item name="colorSurfaceVariant">@color/palette_purple_container_light</item>
         <item name="colorPrimaryContainer">@color/palette_purple_container_light</item>
         <item name="colorSecondaryContainer">@color/palette_purple_container_light</item>
         <item name="colorOnSecondaryContainer">@color/palette_purple_light</item>
@@ -571,6 +584,7 @@
         <item name="colorAccent">@color/palette_purple_dark</item>
         <item name="colorSecondary">@color/palette_purple_dark</item>
         <item name="colorPrimaryDark">@color/palette_purple_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_purple_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_purple_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_purple_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_purple_dark</item>
@@ -595,6 +609,7 @@
         <item name="colorAccent">@color/palette_purple_dark</item>
         <item name="colorSecondary">@color/palette_purple_dark</item>
         <item name="colorPrimaryDark">@color/palette_purple_dark</item>
+        <item name="colorSurfaceVariant">@color/palette_purple_container_dark</item>
         <item name="colorPrimaryContainer">@color/palette_purple_container_dark</item>
         <item name="colorSecondaryContainer">@color/palette_purple_container_dark</item>
         <item name="colorOnSecondaryContainer">@color/palette_purple_dark</item>

@@ -8,11 +8,16 @@
     </item>
     <item>
         <shape android:shape="oval">
+            <solid android:color="?attr/colorPrimary" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="oval">
             <gradient
-                android:angle="45"
-                android:startColor="#7C4DFF"
-                android:centerColor="#6833EA"
-                android:endColor="#00E3FD"
+                android:angle="270"
+                android:startColor="#33FFFFFF"
+                android:centerColor="#0DFFFFFF"
+                android:endColor="#14000000"
                 android:type="linear" />
         </shape>
     </item>

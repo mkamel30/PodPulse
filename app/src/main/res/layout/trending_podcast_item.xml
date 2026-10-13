@@ -17,7 +17,7 @@
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
-        app:cardElevation="2dp"
+        app:cardElevation="0dp"
         app:cardBackgroundColor="?attr/colorSurfaceContainer">
 
         <ImageView
@@ -37,10 +37,10 @@
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:lineHeight="18sp"
+        android:lineHeight="20sp"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="13sp"
-        android:textStyle="bold"
+        android:textSize="@dimen/text_size_small"
+        android:fontFamily="sans-serif-medium"
         tools:text="Podcast Title Here" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:attr/textColorSecondary"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_micro"
         tools:text="Author Name" />
 
 </LinearLayout>

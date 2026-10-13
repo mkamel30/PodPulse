@@ -27,8 +27,7 @@
             android:layout_marginLeft="12dp"
             android:layout_weight="1"
             android:text="@string/pref_voice_boost_title"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textStyle="bold" />
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchVoiceBoost"
@@ -65,7 +64,7 @@
                 android:text="@string/voice_boost_gain_title"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/txtGainValue"
@@ -75,7 +74,7 @@
                 android:layout_alignParentRight="true"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 tools:text="+6 dB" />
 
         </RelativeLayout>

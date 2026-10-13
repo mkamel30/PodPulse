@@ -57,16 +57,16 @@ public class ChapterSeekBar extends androidx.appcompat.widget.AppCompatSeekBar {
 
         float strokeWidth = density * 4.0f;
 
-        paintBackground.setColor(ThemeUtils.getColorFromAttr(getContext(), R.attr.colorSurfaceVariant));
-        paintBackground.setAlpha(128);
+        paintBackground.setColor(ThemeUtils.getColorFromAttr(getContext(), R.attr.colorOnSurface));
+        paintBackground.setAlpha(110);
         paintBackground.setStyle(Paint.Style.STROKE);
         paintBackground.setStrokeWidth(strokeWidth);
         paintBackground.setStrokeCap(Paint.Cap.ROUND);
         paintBackground.setStrokeJoin(Paint.Join.ROUND);
         paintBackground.setAntiAlias(true);
 
-        paintSecondary.setColor(ThemeUtils.getColorFromAttr(getContext(), R.attr.colorSurfaceVariant));
-        paintSecondary.setAlpha(200);
+        paintSecondary.setColor(ThemeUtils.getColorFromAttr(getContext(), R.attr.colorOnSurface));
+        paintSecondary.setAlpha(175);
         paintSecondary.setStyle(Paint.Style.STROKE);
         paintSecondary.setStrokeWidth(strokeWidth);
         paintSecondary.setStrokeCap(Paint.Cap.ROUND);

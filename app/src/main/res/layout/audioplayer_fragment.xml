@@ -140,30 +140,31 @@
 
                 <de.danoeh.antennapod.ui.screen.playback.PlayButton
                     android:id="@+id/butPlay"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_player_play_round"
                     android:contentDescription="@string/pause_label"
-                    android:padding="14dp"
+                    android:padding="16dp"
                     android:scaleType="fitCenter"
+                    app:tint="?attr/colorOnPrimary"
                     app:srcCompat="@drawable/ic_play_48dp"
                     tools:srcCompat="@drawable/ic_play_48dp" />
 
                 <de.danoeh.antennapod.ui.common.CircularProgressBar
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    app:foregroundColor="?attr/action_icon_color" />
+                    app:foregroundColor="?attr/colorOnPrimary" />
 
                 <ProgressBar
                     android:id="@+id/progLoading"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_centerInParent="true"
                     android:visibility="gone"
                     style="?android:attr/progressBarStyle" />
@@ -194,9 +195,9 @@
                     android:layout_alignRight="@id/butRev"
                     android:clickable="false"
                     android:gravity="center"
-                    android:text="30"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    tools:text="30" />
 
                 <ImageButton
                     android:id="@+id/butSkipPrev"
@@ -251,9 +252,9 @@
                     android:layout_alignRight="@id/butFF"
                     android:clickable="false"
                     android:gravity="center"
-                    android:text="30"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    tools:text="30" />
 
                 <ImageButton
                     android:id="@+id/butSkip"
@@ -275,7 +276,7 @@
             <LinearLayout
                 android:id="@+id/btnQueueBottomPill"
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_player_bottom_pill"
@@ -283,7 +284,7 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingHorizontal="24dp">
+                android:paddingHorizontal="20dp">
 
                 <ImageView
                     android:layout_width="18dp"
@@ -291,7 +292,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:importantForAccessibility="no"
-                    app:tint="?attr/action_icon_color"
+                    app:tint="?attr/colorOnSurfaceVariant"
                     app:srcCompat="@drawable/ic_playlist_play" />
 
                 <TextView
